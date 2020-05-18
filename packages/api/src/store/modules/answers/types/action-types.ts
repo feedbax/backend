@@ -1,0 +1,13 @@
+export const ADD_ANSWER = 'ADD_ANSWER';
+export const ADD_ANSWERS = 'ADD_ANSWERS';
+
+export const ADD_LIKE = 'ADD_LIKE_TO_ANSWER';
+export const ADD_LIKES = 'ADD_LIKES_TO_ANSWER';
+
+export const EDIT_ANSWER = 'EDIT_ANSWER';
+
+export const REMOVE_ANSWER = 'REMOVE_ANSWER';
+export const REMOVE_ANSWERS = 'REMOVE_ANSWERS';
+
+export const REMOVE_LIKE = 'REMOVE_LIKE_FROM_ANSWER';
+// TODO REMOVE_LIKES

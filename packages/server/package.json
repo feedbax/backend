@@ -1,0 +1,61 @@
+{
+  "name": "@feedbax/backend-server",
+  "version": "0.0.7",
+  "description": "",
+  "author": "Silas Rosenkranz",
+  "license": "AGPL-3.0-only",
+  "repository": "git@github.com:feedbax/backend.git",
+  "engines": {
+    "node": "^12.13",
+    "yarn": "^1.21"
+  },
+  "scripts": {
+    "lint": "eslint 'src/**/*.ts' --fix",
+    "start": "./dist/bin/feedbax-backend-server",
+
+    "prebuild-tsc": "yarn ~~cp-shared-0",
+    "~~cp-shared-0": "cp -r ../shared/dist src/shared",
+
+    "build-tsc": "rm -rf dist && ttsc",
+  
+    "postbuild-tsc": "yarn ~~clean-shared && yarn ~~cp-shared-1",
+    "~~clean-shared": "rm -rf src/shared",
+    "~~cp-shared-1": "cp -rf ../shared/dist dist/shared",
+
+    "build-exe": "pkg -t node12.13-linux-x64 -c package.json dist/main.js --output dist/bin/feedbax-backend-server",
+    "build": "yarn build-tsc && yarn build-exe"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.2",
+    "@types/flake-idgen": "^0.1.30",
+    "@types/node": "^13.13.5",
+    "@types/redis": "^2.8.16",
+    "@types/socket.io": "^2.1.4",
+    "@types/socket.io-redis": "^1.0.25",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
+    "@typescript-eslint/parser": "^2.12.0",
+    "@zerollup/ts-transform-paths": "^1.7.11",
+    "eslint": "^7.0.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "pkg": "^4.4.3",
+    "ttypescript": "^1.5.10",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "base-x": "^3.0.7",
+    "bcryptjs": "^2.4.3",
+    "core-js": "^3.6.4",
+    "express": "^4.17.1",
+    "flake-idgen": "^1.1.2",
+    "hyphen": "^1.5.1",
+    "nohm": "^2.2.3",
+    "redis": "^3.0.2",
+    "socket.io": "^2.3.0",
+    "socket.io-msgpack-parser": "^2.2.0",
+    "socket.io-redis": "^5.2.0",
+    "winston": "^3.2.1"
+  }
+}

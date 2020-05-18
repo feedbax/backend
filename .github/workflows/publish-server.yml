@@ -1,0 +1,34 @@
+name: CI/CD
+
+on:
+  push:
+    tags:        
+      - server-v*
+
+jobs:
+  build-server:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    # - name: build docker image
+    #   run: |
+    #     cd packages/server
+    #     docker build . --file Dockerfile --tag docker.pkg.github.com/feedbax/backend/server:${{steps.vars.outputs.tag}}
+    #     yarn build
+
+    - name: Set output
+      id: vars
+      run: echo ::set-output name=tag::${GITHUB_REF:17}
+
+
+    - name: publish docker image
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: feedbax/backend/backend-server
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        dockerfile: packages/server/Dockerfile
+        tags: "${{ steps.vars.outputs.tag }}"

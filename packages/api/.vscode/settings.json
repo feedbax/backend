@@ -1,0 +1,22 @@
+{
+  "editor.tabSize": 2,
+  "files.exclude": {
+    "node_modules/": true,
+    "dist/": true,
+    "coverage/": true,
+    "*.log": true,
+    ".vscode/": true,
+    ".cache/": true
+  },
+  "eslint.validate": [
+    {
+      "language": "typescript",
+      "autoFix": true
+    },
+    {
+      "language": "typescriptreact",
+      "autoFix": true
+    }
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

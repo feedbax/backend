@@ -1,0 +1,64 @@
+{
+	"include": [
+		"src"
+	],
+	"compilerOptions": {
+		"target": "ES5",
+		"module": "commonjs",
+		"declaration": true,
+		"outDir": "./dist",
+		"strict": true,
+		"esModuleInterop": true,
+		"baseUrl": "./",
+		"paths": {
+			"@shared": [
+				"src/shared/index",
+				"../shared/dist/index"
+			],
+			"@shared/*": [
+				"src/shared/*",
+				"../shared/dist/*"
+			],
+
+			"~api": [
+				"src/api/index"
+			],
+			"~api/*": [
+				"src/api/*"
+			],
+
+			"~actions": [
+				"src/actions/index"
+			],
+			"~actions/*": [
+				"src/actions/*"
+			],
+
+			"~handlers": [
+				"src/handlers/index"
+			],
+			"~handlers/*": [
+				"src/handlers/*"
+			],
+
+			"~types/*": [
+				"src/types/*"
+			],
+			"~lib/*": [
+				"src/lib/*"
+			],
+
+			"~store": [
+				"src/store/index"
+			],
+			"~store/*": [
+				"src/store/*"
+			]
+		},
+		"plugins": [
+			{
+				"transform": "@zerollup/ts-transform-paths"
+			}
+		]
+	}
+}

@@ -1,0 +1,64 @@
+{
+  "name": "@feedbax/backend-api",
+  "version": "1.1.0",
+  "description": "",
+  "author": "Silas Rosenkranz",
+  "license": "AGPL-3.0-only",
+  "repository": "git@github.com:feedbax/backend.git",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "main": "./api/index.js",
+  "types": "./api/index.d.ts",
+  "scripts": {
+    "prebuild": "yarn ~~cp-shared-0",
+    "~~cp-shared-0": "cp -r ../shared/dist src/shared",
+
+    "build": "yarn ~~clean-build && yarn ~~lint && yarn ~~compile",
+    "~~clean-build": "rm -rf dist",
+    "~~lint": "eslint 'src/**/*.ts' --fix",
+    "~~compile": "ttsc",
+
+    "postbuild": "yarn ~~clean-shared && yarn ~~cp-shared-1 && yarn postbuild-0",
+    "~~clean-shared": "rm -rf src/shared",
+    "~~cp-shared-1": "cp -rf ../shared/dist dist/shared",
+
+    "postbuild-0": "yarn ~~gen-disclaimer && yarn ~~cp-disclaimer && yarn postbuild-1",
+    "~~gen-disclaimer": "yarn licenses generate-disclaimer --production=true > DISCLAIMER.md",
+    "~~cp-disclaimer": "cp -f DISCLAIMER.md ./dist/DISCLAIMER.md",
+
+    "postbuild-1": "yarn ~~cp-package-json && yarn postbuild-3",
+    "~~cp-package-json": "cp -f package.json ./dist/package.json",
+
+    "postbuild-2": "yarn ~~cp-license && yarn postbuild-4",
+    "~~cp-license": "cp -f LICENSE.md ./dist/LICENSE.md",
+
+    "postbuild-3": "yarn ~~cp-readme",
+    "~~cp-readme": "cp -f README.md ./dist/README.md"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "@zerollup/ts-transform-paths": "^1.7.11",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "ttypescript": "^1.5.10",
+    "typescript": "^3.8.2"
+  },
+  "dependencies": {
+    "@types/lodash.flattendeep": "^4.4.6",
+    "@types/md5": "^2.2.0",
+    "@types/node": "^13.7.4",
+    "@types/socket.io-client": "^1.4.32",
+    "eventemitter3": "^4.0.0",
+    "immortal-db": "^1.0.3",
+    "lodash.flattendeep": "^4.4.0",
+    "md5": "^2.2.1",
+    "nanoid": "^3.1.4",
+    "redux": "^4.0.5",
+    "socket.io-client": "^2.3.0",
+    "socket.io-msgpack-parser": "^2.2.0"
+  }
+}

@@ -1,0 +1,33 @@
+{
+	"include": [
+		"src"
+	],
+	"compilerOptions": {
+		"target": "ES3",
+		"module": "commonjs",
+		"declaration": true,
+		"outDir": "./dist",
+		"strict": true,
+		"esModuleInterop": true,
+		"baseUrl": "./",
+		"paths": {
+			"~packets": [
+				"src/packets/index"
+			],
+			"~packets/*": [
+				"src/packets/*"
+			],
+			"~models": [
+				"src/models/index"
+			],
+			"~models/*": [
+				"src/models/*"
+			],
+		},
+		"plugins": [
+			{
+				"transform": "@zerollup/ts-transform-paths"
+			}
+		]
+	}
+}

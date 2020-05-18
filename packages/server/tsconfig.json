@@ -1,0 +1,43 @@
+{
+	"compilerOptions": {
+		"target": "ES2015",
+		"module": "commonjs",
+		"declaration": true,
+		"outDir": "./dist",
+		"strict": true,
+		"allowJs": true,
+		"esModuleInterop": true,
+		"baseUrl": "./",
+		"paths": {
+			"@shared": [
+				"src/shared/index",
+				"../shared/dist/index"
+			],
+			"@shared/*": [
+				"src/shared/*",
+				"../shared/dist/*"
+			],
+
+			"~create-demo-event": ["test/create-demo-event"],
+			"~create-event": ["src/create-event"],
+
+			"~lib/*": ["src/lib/*"],
+      "~types/*": ["src/types/*"],
+      "~store/*": ["src/store/*"],
+      "~store": ["src/store/index"],
+      "~models/*": ["src/models/*"],
+      "~routes/*": ["src/routes/*"],
+			"~events/*": ["src/events/*"],
+			"~server/*": ["src/server/*"],
+			"~server": ["src/server/index"],
+		},
+		"plugins": [
+			{
+				"transform": "@zerollup/ts-transform-paths"
+			}
+		]
+	},
+	"include": [
+		"src"
+	]
+}

@@ -1,0 +1,20 @@
+{
+  "version": "1.1.0",
+  "name": "@feedbax/backend",
+  "author": "Silas Rosenkranz",
+  "license": "AGPL-3.0-only",
+  "repository": "git@github.com:feedbax/backend.git",
+  "scripts": {
+    "install": "yarn package_shared && yarn package_api && yarn package_server",
+
+    "package_shared": "yarn install_shared && yarn build_shared",
+    "install_shared": "yarn --cwd packages/shared install",
+    "build_shared": "yarn --cwd packages/shared build",
+
+    "package_api": "yarn install_api",
+    "install_api": "yarn --cwd packages/api install",
+
+    "package_server": "yarn install_server",
+    "install_server": "yarn --cwd packages/server install"
+  }
+}

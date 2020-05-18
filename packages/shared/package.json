@@ -1,0 +1,47 @@
+{
+  "version": "1.1.0",
+  "name": "@feedbax/backend-shared",
+  "author": "Silas Rosenkranz",
+  "license": "AGPL-3.0-only",
+  "repository": "git@github.com:feedbax/backend.git",
+  "directories": {
+    "lib": "dist"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "lint": "eslint 'src/**/*.ts' --fix",
+    "prebuild": "yarn lint",
+    "build": "rm -rf dist && ttsc",
+    "postbuild": "cp package.json dist/package.json"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "@zerollup/ts-transform-paths": "^1.7.11",
+    "deep-object-diff": "^1.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-import-resolver-typescript": "^2.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "json-colorizer": "^2.2.1",
+    "ttypescript": "^1.5.10",
+    "typescript": "^3.8.2"
+  },
+  "dependencies": {
+    "@types/js-cookie": "^2.2.4",
+    "@types/lodash.flattendeep": "^4.4.6",
+    "@types/node": "^13.7.4",
+    "@types/socket.io-client": "^1.4.32",
+    "@types/uuid": "^3.4.7",
+    "js-cookie": "^2.2.1",
+    "lodash.flattendeep": "^4.4.0",
+    "redux": "^4.0.5",
+    "socket.io-client": "^2.3.0",
+    "socket.io-msgpack-parser": "^2.2.0",
+    "uuid": "^3.4.0"
+  }
+}

@@ -1,0 +1,52 @@
+name: CI/CD
+
+on:
+  push:
+    tags:        
+      - api-v*
+
+jobs:
+  build-api-module:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: install dependencies
+      run: yarn run install
+
+    - name: build api module
+      run: |
+        cd packages/api
+        yarn install
+        yarn build
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: feedbax-api
+        path: packages/api/dist/
+
+  publish-api-module:
+    name: npm-publish
+    needs: build-api-module
+    runs-on: ubuntu-latest
+    steps:
+  
+    - name: Checkout repository
+      uses: actions/checkout@master
+
+    - uses: actions/download-artifact@master
+      with:
+        name: feedbax-api
+        path: packages/api/dist/
+
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+        registry-url: 'https://npm.pkg.github.com'
+        scope: '@feedbax' # Defaults to the user or organization that owns the workflow file
+
+    - run: cd packages/api/dist/ && npm publish
+
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

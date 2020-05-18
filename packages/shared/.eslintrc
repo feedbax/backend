@@ -1,0 +1,61 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "airbnb/base",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "import/prefer-default-export": "off",
+    "no-unused-vars": [
+      "error", { "varsIgnorePattern": "^_.*", "argsIgnorePattern": "^_.*$" }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "error", { "varsIgnorePattern": "^_.*", "argsIgnorePattern": "^_.*$" }
+    ],
+    "camelcase": [
+      "error", { "allow": ["^_.*"] }
+    ],
+    "@typescript-eslint/camelcase": [
+      "error", { "allow": ["^_.*"] }
+    ],
+    "lines-between-class-members": [
+      "error",
+      "always",
+      {
+        "exceptAfterSingleLine": true
+      }
+    ],
+    "func-names": [
+      "error",
+      "as-needed"
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {},
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    }
+  }
+}
