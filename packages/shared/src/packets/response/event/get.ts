@@ -1,4 +1,5 @@
-import type { Response } from '~packets/response/Response';
+import type { CreateResponseFn } from '~packets/response/Response';
 import type { EventResolved } from '~models/event';
 
-export type ResponseFn = Response<EventResolved>;
+export type ResponseFn = CreateResponseFn<EventResolved>;
+export type Response = NonNullable<Parameters<ResponseFn>[0]['data']>;
