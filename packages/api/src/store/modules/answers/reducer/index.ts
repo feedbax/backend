@@ -4,6 +4,7 @@ import { reducerAddAnswers, reducerRemoveAnswers } from './helper';
 
 import type { AnswersActions } from '~store/modules/answers/types';
 import type { AnswersState } from '~store/modules/answers/types';
+import { AnswerKeys } from '@shared/models/answer';
 
 const initialState: AnswersState = {};
 
@@ -62,12 +63,12 @@ export default (state = { ...initialState }, action: AnswersActions): AnswersSta
 
     case ActionTypes.EDIT_ANSWER: {
       const answer = action.payload;
-      const { [answer.id]: _answer } = state;
+      const { [answer[AnswerKeys.id]]: _answer } = state;
 
       return {
         ...state,
 
-        [answer.id]: {
+        [answer[AnswerKeys.id]]: {
           ..._answer,
           ...answer,
         },

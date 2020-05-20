@@ -1,15 +1,25 @@
 import { Actions } from '~store/modules';
+import { ContextKeys } from '@shared/packets/context';
+import { AnswerKeys } from '@shared/models/answer';
 
 import type { Create } from './types';
 
 const handler: Create = function (context, answer) {
   const { api } = this.store.getState();
   const { event } = api;
-  const { question } = context;
+
+  const { id: eventId } = event;
+  const { [ContextKeys.questionId]: questionId } = context;
+  const answerId = answer[AnswerKeys.id];
+
+  const addedAnswer = {
+    ...answer,
+    [AnswerKeys.likes]: [],
+  };
 
   this.store.dispatchAll(
-    Actions.Answer.addAnswer(event.id, question.id, { ...answer, likes: [] }),
-    Actions.Question.addAnswer(question.id, answer.id),
+    Actions.Answer.addAnswer(eventId, questionId, addedAnswer),
+    Actions.Question.addAnswer(questionId, answerId),
   );
 };
 

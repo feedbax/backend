@@ -1,5 +1,6 @@
-import type { EventResolvedFlat } from '@shared/models/event';
+import type { EventProperties } from '@shared/models/event';
 
-export interface EventState extends EventResolvedFlat {
+export interface EventState extends EventProperties {
+  id: string;
   questions: string[];
 }

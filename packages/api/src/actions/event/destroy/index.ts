@@ -1,7 +1,7 @@
 import Packets from '@shared/packets/ids';
 
 import type { Packet } from '@shared/packets/client/event/destroy';
-import type { Destroy, Return } from './types';
+import type { Destroy, Response } from './types';
 
 const destroy: Destroy = async function (props) {
   const { event } = props;
@@ -11,7 +11,7 @@ const destroy: Destroy = async function (props) {
       event: { id: event.id },
     };
 
-    return this.sendPacket<Packet, Return>({
+    return this.sendPacket<Packet, Response>({
       id: Packets.Client.Admin.Event.Destroy,
       data,
     });

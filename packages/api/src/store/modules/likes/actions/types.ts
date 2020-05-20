@@ -10,14 +10,14 @@ import type { LikeResolved } from '@shared/models/like';
 
 type Context<T extends string> = (
   T extends 'add-likes' ? {
-    event: { id: string };
-    question: { id: string };
-    answer: { id: string };
+    eventId: string;
+    questionId: string;
+    answerId: string;
   } : (
   T extends 'add-like' ? {
-    event: { id: string };
-    question: { id: string };
-    answer: { id: string };
+    eventId: string;
+    questionId: string;
+    answerId: string;
   } : {}
 ));
 

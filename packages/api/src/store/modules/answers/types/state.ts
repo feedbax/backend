@@ -1,6 +1,7 @@
-import type { AnswerResolvedFlat } from '@shared/models/answer';
+import type { AnswerProperties } from '@shared/models/answer';
 
-export interface AnswerState extends AnswerResolvedFlat {
+export interface AnswerState extends AnswerProperties {
+  id: string;
   eventId: string;
   questionId: string;
   likes: string[];

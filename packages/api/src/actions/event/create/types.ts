@@ -1,5 +1,5 @@
 import type { FBXAPI } from '~api';
-import type { EventResolved } from '@shared/models/event';
+import type { Response } from '@shared/packets/response/event/create';
 
 export type Event = {
   slug: string;
@@ -9,8 +9,8 @@ export type Props = {
   event: Event;
 };
 
-export type Return = EventResolved[];
-
 export interface Create {
-  (this: FBXAPI, props: Props): Promise<Return>;
+  (this: FBXAPI, props: Props): Promise<Response>;
 }
+
+export { Response };

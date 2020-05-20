@@ -1,7 +1,9 @@
 import Packets from '@shared/packets/ids';
 
+import answerCreateHandler from '~handlers/answer/create';
+
 import type { Packet } from '@shared/packets/client/answer/create';
-import type { Create } from './types';
+import type { Create, Response } from './types';
 
 const create: Create = async function (props) {
   const { answer, question } = props;
@@ -12,9 +14,13 @@ const create: Create = async function (props) {
       answer: { text: answer.text },
     };
 
-    return this.sendPacket<Packet, undefined>({
+    return this.sendPacket<Packet, Response>({
       id: Packets.Client.User.Answer.Create,
       data: { ...data },
+    }).then((res) => {
+      const [context, $answer] = res;
+      answerCreateHandler.bind(this)(context, $answer);
+      return res;
     });
   }
 

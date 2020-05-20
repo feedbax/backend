@@ -1,12 +1,13 @@
 import type { FBXAPI } from '~api';
-import type { EventResolved } from '@shared/models/event';
+import type { EventState } from '~store/modules/event/types';
+import type { Response } from '@shared/packets/response/event/destroy';
 
 export type Props = {
-  event: PickPartial<EventResolved, 'id'>;
+  event: PickPartial<EventState, 'id'>;
 };
 
-export type Return = EventResolved[];
-
 export interface Destroy {
-  (this: FBXAPI, props: Props): Promise<Return>;
+  (this: FBXAPI, props: Props): Promise<Response>;
 }
+
+export { Response };

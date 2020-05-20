@@ -1,9 +1,9 @@
 import type { FBXAPI } from '~api';
 
-import type { AnswerResolved } from '@shared/models/answer';
+import type { AnswerState } from '~store/modules/answers/types';
 
 export type Props = {
-  answer: PickPartial<AnswerResolved, 'id'>;
+  answer: PickPartial<AnswerState, 'id'>;
 };
 
 export interface Destroy {

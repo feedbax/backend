@@ -1,6 +1,7 @@
-import type { LikeResolved } from '@shared/models/like';
+import type { LikeProperties } from '@shared/models/like';
 
-export interface LikeState extends LikeResolved {
+export interface LikeState extends LikeProperties {
+  id: string;
   eventId: string;
   questionId: string;
   answerId: string;

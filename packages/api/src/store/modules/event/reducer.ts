@@ -3,6 +3,7 @@ import * as ActionTypes from '~store/modules/event/types/action-types';
 
 import type { EventActions } from '~store/modules/event/types';
 import type { EventState } from '~store/modules/event/types';
+import { QuestionKeys } from '@shared/models/question';
 
 const initialState: EventState = {
   id: '',
@@ -26,7 +27,7 @@ export default (state = { ...initialState }, action: EventActions): EventState =
 
         questions: [
           ...state.questions,
-          question.id,
+          question[QuestionKeys.id],
         ],
       };
     }
