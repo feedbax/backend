@@ -1,4 +1,5 @@
 import Packets from '@shared/packets/ids';
+import { EventKeys } from '@shared/models/event';
 
 import { debug, error } from '~lib/logger';
 import { validateUUIDSync } from '~lib/validate-uuid';
@@ -21,7 +22,7 @@ const handler: Handler = async function (this, packet, response) {
 
     const event = await EventModelStatic.get({ slug: packet.event.slug });
     const eventResolved = await event.resolved;
-    const currentEventId = eventResolved.id;
+    const currentEventId = eventResolved[EventKeys.id];
 
     this.socket.join(currentEventId);
 

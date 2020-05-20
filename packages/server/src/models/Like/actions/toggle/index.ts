@@ -10,6 +10,7 @@ import type { AnswerModel } from '~models/Answer';
 import { GetContext, Context } from './types';
 import { ByAnswer, ByAnswerId } from './types';
 import { Toggle, Props } from './types';
+import { ContextKeys } from '@shared/packets/context';
 
 const getContext: GetContext = (
   async (Like) => {
@@ -28,8 +29,8 @@ const getContext: GetContext = (
     }
 
     return {
-      question: { id: questionId },
-      answer: { id: answerId },
+      [ContextKeys.questionId]: questionId,
+      [ContextKeys.answerId]: answerId,
     };
   }
 );

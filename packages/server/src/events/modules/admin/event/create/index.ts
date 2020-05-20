@@ -20,7 +20,7 @@ const handler: Handler = async function (packet, response) {
     await AdminModel.createEvent({ ...event, settings: {} });
 
     const events = await AdminModel.linkedEvents;
-    const eventsProps = events.map((e) => e.allProperties());
+    const eventsProps = events.map(($event) => $event.resolvedFlat);
 
     response({
       success: true,

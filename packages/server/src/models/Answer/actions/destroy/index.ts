@@ -1,6 +1,7 @@
 import { error } from '~lib/logger';
 import statics from '~models/statics';
 import { AnswerError } from '~types/errors';
+import { ContextKeys } from '@shared/packets/context';
 
 import type { LikeModel } from '~models/Like';
 
@@ -27,7 +28,7 @@ const withAnswer: WithAnswer = (
       }
 
       const context = {
-        question: { id: questionId },
+        [ContextKeys.questionId]: questionId,
       };
 
       const destroyedLikes = await answer.linkedLikes;

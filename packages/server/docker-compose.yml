@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+
+  redis:
+    image: "redis:5-buster"
+    command: ["redis-server", "--appendonly", "yes"]
+
+    volumes:
+      - "./redis-data:/data"
+
+    ports:
+      - "6379:6379"
+      
+#  server:
+#    image: "docker.pkg.github.com/feedbax/backend/backend-server:v1.1.0"
+    
+#    environment:
+#      - REDIS_URL=redis://redis:6379
+    
+#    ports:
+#      - "3001:3000"

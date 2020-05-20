@@ -41,7 +41,7 @@ const handler: Handler = async function (packet, response) {
     };
 
     const AnswerEdited = await AnswerModelStatic.edit(editProps);
-    const answerResponse = AnswerEdited.allProperties();
+    const answerResponse = AnswerEdited.resolvedFlat;
 
     const packetOut: PacketOut = [answerResponse];
 

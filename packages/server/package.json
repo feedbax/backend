@@ -12,16 +12,12 @@
   "scripts": {
     "lint": "eslint 'src/**/*.ts' --fix",
     "start": "./dist/bin/feedbax-backend-server",
-
     "prebuild-tsc": "yarn ~~cp-shared-0",
     "~~cp-shared-0": "cp -r ../shared/dist src/shared",
-
     "build-tsc": "rm -rf dist && ttsc",
-  
     "postbuild-tsc": "yarn ~~clean-shared && yarn ~~cp-shared-1",
     "~~clean-shared": "rm -rf src/shared",
     "~~cp-shared-1": "cp -rf ../shared/dist dist/shared",
-
     "build-exe": "pkg -t node12.13-linux-x64 -c package.json dist/main.js --output dist/bin/feedbax-backend-server",
     "build": "yarn build-tsc && yarn build-exe"
   },
@@ -29,6 +25,7 @@
     "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.2",
     "@types/flake-idgen": "^0.1.30",
+    "@types/lodash.debounce": "^4.0.6",
     "@types/node": "^13.13.5",
     "@types/redis": "^2.8.16",
     "@types/socket.io": "^2.1.4",
@@ -51,6 +48,7 @@
     "express": "^4.17.1",
     "flake-idgen": "^1.1.2",
     "hyphen": "^1.5.1",
+    "lodash.debounce": "^4.0.8",
     "nohm": "^2.2.3",
     "redis": "^3.0.2",
     "socket.io": "^2.3.0",

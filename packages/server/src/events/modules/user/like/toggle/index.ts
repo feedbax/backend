@@ -1,7 +1,9 @@
 import Packets from '@shared/packets/ids';
+import { ToggleActions, LikeKeys } from '@shared/models/like';
+import { ContextKeys } from '@shared/packets/context';
 
 import { debug, error } from '~lib/logger';
-import { userNamespace, adminNamespace } from '~server';
+import BulkUpdateBroadcast, { UpdateAction } from '~lib/update-broadcast';
 
 import { EventHandler } from '~events/helper/event-handler';
 import { checkSessionVars, presetUserWithEvent } from '~events/helper/fbx-socket';
@@ -10,9 +12,9 @@ import statics from '~models/statics';
 
 import type { Packet as PacketOutCreate } from '@shared/packets/server/like/create';
 import type { Packet as PacketOutDestroy } from '@shared/packets/server/like/destroy';
+import type { Response } from '@shared/packets/response/like/toggle';
 
 import type { Handler } from './types';
-import { ToggleActions } from '@shared/models/like';
 
 const handler: Handler = async function (this, packet, response) {
   const { LikeModelStatic } = statics.models;
@@ -32,45 +34,54 @@ const handler: Handler = async function (this, packet, response) {
       { answerId },
     );
 
-    let packetOut: PacketOutCreate | PacketOutDestroy;
-    let packetId: string;
+    let $packetOut: PacketOutCreate | PacketOutDestroy;
+    let $action: Response;
 
     // eslint-disable-next-line default-case
     switch (action) {
       case ToggleActions.Created: {
-        const $packetOut: PacketOutCreate = [
+        $packetOut = [
           context,
           like,
         ];
 
-        packetId = Packets.Server.Like.Create;
-        packetOut = $packetOut;
+        $action = {
+          action,
+          payload: $packetOut,
+        };
+
         break;
       }
 
       case ToggleActions.Destroyed: {
-        const $packetOut: PacketOutDestroy = [
+        $packetOut = [
           context,
-          like.id,
+          like[LikeKeys.id],
         ];
 
-        packetId = Packets.Server.Like.Destroy;
-        packetOut = $packetOut;
+        $action = {
+          action,
+          payload: $packetOut,
+        };
+
         break;
       }
     }
 
-    userNamespace
-      .to(currentEventId)
-      .emit(packetId, ...packetOut);
+    const $questionId = context[ContextKeys.questionId];
+    const $answerId = context[ContextKeys.answerId];
 
-    adminNamespace
-      .to(currentEventId)
-      .emit(packetId, ...packetOut);
+    BulkUpdateBroadcast.broadcast(currentEventId, {
+      action: UpdateAction.UpdateLikes,
+      payload: {
+        questionId: $questionId,
+        answerId: $answerId,
+      },
+    });
 
     response({
       success: true,
-      data: undefined,
+      data: $action,
     });
   } catch (err) {
     error(`${this.namespace.name}/like/toggle`, this.socket.id, err);

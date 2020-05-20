@@ -27,7 +27,7 @@ const handler: Handler = async function (packet, response) {
     await EventModelStatic.destroy({ eventId: event.id });
 
     const Events = await AdminModel.linkedEvents;
-    const eventsProps = Events.map((e) => e.allProperties());
+    const eventsProps = Events.map(($event) => $event.resolvedFlat);
 
     if (event.id === this.socket.auth.currentEventId) {
       this.socket.leave(event.id);

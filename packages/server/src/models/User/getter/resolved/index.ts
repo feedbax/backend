@@ -1,7 +1,7 @@
 import { error } from '~lib/logger';
 import { UserError } from '~types/errors';
 
-import type { UserResolved } from '@shared/models/user';
+import { UserResolved, UserKeys } from '@shared/models/user';
 import type { GetterResolved } from './types';
 
 export const resolved: GetterResolved = (
@@ -9,10 +9,12 @@ export const resolved: GetterResolved = (
     try {
       const Events = await this.linkedEvents;
       const eventsResolver = Events.map((Question) => Question.resolved);
+      const props = this.allProperties();
 
       const event: UserResolved = {
-        ...this.allProperties(),
-        events: await Promise.all(eventsResolver),
+        [UserKeys.id]: props.id,
+        [UserKeys.email]: props.email,
+        [UserKeys.events]: await Promise.all(eventsResolver),
       };
 
       return event;

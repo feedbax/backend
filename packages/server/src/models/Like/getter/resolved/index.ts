@@ -1,8 +1,14 @@
 import type { GetterResolved } from './types';
+import { LikeKeys } from '@shared/models/like';
 
 export const resolved: GetterResolved = (
   function () {
-    return this.allProperties();
+    const props = this.allProperties();
+
+    return {
+      [LikeKeys.id]: props.id,
+      [LikeKeys.author]: props.author,
+    };
   }
 );
 

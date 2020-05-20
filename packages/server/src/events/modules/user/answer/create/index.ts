@@ -1,7 +1,8 @@
 import Packets from '@shared/packets/ids';
+import { ContextKeys } from '@shared/packets/context';
 
 import { debug, error } from '~lib/logger';
-import { userNamespace, adminNamespace } from '~server';
+import BulkUpdateBroadcast, { UpdateAction } from '~lib/update-broadcast';
 
 import { EventHandler } from '~events/helper/event-handler';
 import { checkSessionVars, presetUserWithEvent } from '~events/helper/fbx-socket';
@@ -40,10 +41,10 @@ const handler: Handler = async function (this, packet, response) {
     };
 
     const CreatedAnswer = await AnswerModelStatic.create(newAnswerProps, newAnswerContext);
-    const createdAnswer = CreatedAnswer.allProperties();
+    const createdAnswer = CreatedAnswer.resolvedFlat;
 
     const context = {
-      question: { id: questionId },
+      [ContextKeys.questionId]: questionId,
     };
 
     const packetOut: PacketOut = [
@@ -51,23 +52,14 @@ const handler: Handler = async function (this, packet, response) {
       createdAnswer,
     ];
 
-    userNamespace
-      .to(currentEventId)
-      .emit(
-        Packets.Server.Answer.Create,
-        ...packetOut,
-      );
-
-    adminNamespace
-      .to(currentEventId)
-      .emit(
-        Packets.Server.Answer.Create,
-        ...packetOut,
-      );
+    BulkUpdateBroadcast.broadcast(currentEventId, {
+      action: UpdateAction.AddAnswer,
+      payload: packetOut,
+    });
 
     response({
       success: true,
-      data: undefined,
+      data: packetOut,
     });
   } catch (err) {
     error(logPath, this.socket.id, err);

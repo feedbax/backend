@@ -12,7 +12,7 @@ import type { QuestionModel } from '~models/Question';
 import type { EventModel } from '~models/Event';
 import type { LikeModel } from '~models/Like';
 
-import type { AnswerResolved, AnswerProperties } from '@shared/models/answer';
+import type { AnswerResolved, AnswerProperties, AnswerResolvedFlat } from '@shared/models/answer';
 
 import type { Definitions } from './types';
 import type { Move, IsLikedBy } from './types';
@@ -43,6 +43,10 @@ export class AnswerModel extends NohmModel<AnswerProperties> {
 
   public get resolved(): Promise<AnswerResolved> {
     return getter.resolved.bind(this)();
+  }
+
+  public get resolvedFlat(): AnswerResolvedFlat {
+    return getter.resolvedFlat.bind(this)();
   }
 
   public get linkedLikes(): Promise<LikeModel[]> {

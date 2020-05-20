@@ -1,13 +1,11 @@
+import type { $Context, ContextKeys } from '@shared/packets/context';
 import type { ToggleActions } from '@shared/models/like';
 import type { LikeResolved } from '@shared/models/like';
 
 import type { AnswerModel } from '~models/Answer';
 import type { LikeModel } from '~models/Like';
 
-export type Context = {
-  question: { id: string };
-  answer: { id: string };
-}
+export type Context = Pick<$Context, ContextKeys.answerId | ContextKeys.questionId>;
 
 export type GetContext = (Like: LikeModel) => Promise<Context>;
 export type ToggleTuple = [ToggleActions, Context, LikeResolved];

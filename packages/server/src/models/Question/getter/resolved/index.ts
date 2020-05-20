@@ -2,6 +2,7 @@ import { QuestionError } from '~types/errors';
 import { error } from '~lib/logger';
 
 import type { GetterResolved } from './types';
+import { QuestionKeys } from '@shared/models/question';
 
 export const resolved: GetterResolved = (
   async function () {
@@ -10,10 +11,15 @@ export const resolved: GetterResolved = (
 
       const answersPromise = Answers.map((Answer) => Answer.resolved);
       const answers = await Promise.all(answersPromise);
+      const props = this.allProperties();
 
       return {
-        ...this.allProperties(),
-        answers,
+        [QuestionKeys.id]: props.id,
+        [QuestionKeys.order]: props.order,
+        [QuestionKeys.text]: props.text,
+        [QuestionKeys.type]: props.type,
+        [QuestionKeys.settings]: props.settings,
+        [QuestionKeys.answers]: answers,
       };
     } catch (err) {
       error('QuestionModel', 'resolved', err);

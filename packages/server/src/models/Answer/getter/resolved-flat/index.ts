@@ -1,14 +1,12 @@
 import { error } from '~lib/logger';
 import { AnswerError } from '~types/errors';
 
-import type { GetterResolved } from './types';
+import type { GetterResolvedFlat } from './types';
 import { AnswerKeys } from '@shared/models/answer';
 
-export const resolved: GetterResolved = (
-  async function () {
+export const resolvedFlat: GetterResolvedFlat = (
+  function () {
     try {
-      const Likes = await this.linkedLikes;
-      const likes = Likes.map((Like) => Like.resolved);
       const props = this.allProperties();
 
       return {
@@ -16,7 +14,6 @@ export const resolved: GetterResolved = (
         [AnswerKeys.text]: props.text,
         [AnswerKeys.author]: props.author,
         [AnswerKeys.time]: props.time,
-        [AnswerKeys.likes]: await Promise.all(likes),
       };
     } catch (err) {
       error('AnswerModel', 'resolved', err);
@@ -25,4 +22,4 @@ export const resolved: GetterResolved = (
   }
 );
 
-export type resolved = GetterResolved;
+export type resolvedFlat = GetterResolvedFlat;

@@ -21,7 +21,7 @@ const handler: Handler = async function (packet, response) {
 
     const user = await UserModelStatic.get(packet.user);
     const events = await user.linkedEvents;
-    const eventsProps = events.map((e) => e.allProperties());
+    const eventsProps = events.map((event) => event.resolvedFlat);
 
     this.socket.auth = {
       ...this.socket.auth,
