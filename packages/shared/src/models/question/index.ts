@@ -1,4 +1,4 @@
-type AnswerResolved = import('~models/answer').AnswerResolved;
+import type { AnswerResolved } from '~models/answer';
 
 export enum QuestionType {
   NONE = 'NONE',
@@ -69,11 +69,29 @@ export interface QuestionProperties
   extends QuestionPropsRequired,
     QuestionPropsOptional {}
 
-export interface QuestionResolvedFlat extends QuestionProperties {
-  id: string;
+export enum QuestionKeys {
+  id,
+  type,
+  text,
+  order,
+  settings,
+  answers
 }
 
-export interface QuestionResolved extends QuestionProperties {
-  id: string;
-  answers: AnswerResolved[];
+// branding is necessary to preserve custom type in intellisense
+type QuestionId = string & { __brand?: unknown };
+type QuestionText = string & { __brand?: unknown };
+type QuestionOrder = number & { __brand?: unknown };
+type QuestionAnswer = AnswerResolved[];
+
+export interface QuestionResolvedFlat {
+  [QuestionKeys.id]: QuestionId;
+  [QuestionKeys.type]: QuestionType;
+  [QuestionKeys.text]: QuestionText;
+  [QuestionKeys.order]: QuestionOrder;
+  [QuestionKeys.settings]: QuestionSettings;
+}
+
+export interface QuestionResolved extends QuestionResolvedFlat {
+  [QuestionKeys.answers]: QuestionAnswer;
 }

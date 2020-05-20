@@ -1,8 +1,13 @@
-type CreatedLike = import('~models/like').LikeResolved;
+import type { $Context, ContextKeys } from '~packets/context';
+import type { LikeResolved as CreatedLike } from '~models/like';
 
-type Context = {
-  question: { id: string };
-  answer: { id: string };
-};
+type ContextProps = ContextKeys.questionId | ContextKeys.answerId;
+
+export type Context = (
+  Pick<$Context, ContextProps> & {
+    // branding is necessary to preserve custom type in intellisense
+    __brand?: unknown;
+  }
+);
 
 export type Packet = [Context, CreatedLike];

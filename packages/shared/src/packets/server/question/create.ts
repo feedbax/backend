@@ -1,5 +1,5 @@
-type CreatedQuestion = import('~models/question').QuestionResolved;
-type CreatedAnswer = import('~models/answer').AnswerResolvedFlat;
+import type { QuestionResolved as CreatedQuestion } from '~models/question';
+import type { AnswerResolvedFlat as CreatedAnswer } from '~models/answer';
 
 type CreatedAnswers = CreatedAnswer[];
 

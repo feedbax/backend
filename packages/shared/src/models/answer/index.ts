@@ -1,4 +1,4 @@
-type LikeResolved = import('~models/like').LikeResolved;
+import type { LikeResolved } from '~models/like';
 
 export interface AnswerPropsOptional {
   time: number;
@@ -13,11 +13,28 @@ export interface AnswerProperties
   extends AnswerPropsOptional,
     AnswerPropsRequired {}
 
-export interface AnswerResolvedFlat extends AnswerProperties {
-  id: string;
+export enum AnswerKeys {
+  id,
+  text,
+  time,
+  author,
+  likes
 }
 
-export interface AnswerResolved extends AnswerProperties {
-  id: string;
-  likes: LikeResolved[];
+// branding is necessary to preserve custom type in intellisense
+type AnswerId = string & { __brand?: unknown };
+type AnswerText = string & { __brand?: unknown };
+type AnswerAuthor = string & { __brand?: unknown };
+type AnswerTime = number & { __brand?: unknown };
+type AnswerLikes = LikeResolved[];
+
+export interface AnswerResolvedFlat {
+  [AnswerKeys.id]: AnswerId;
+  [AnswerKeys.text]: AnswerText;
+  [AnswerKeys.author]: AnswerAuthor;
+  [AnswerKeys.time]: AnswerTime;
+}
+
+export interface AnswerResolved extends AnswerResolvedFlat {
+  [AnswerKeys.likes]: AnswerLikes;
 }

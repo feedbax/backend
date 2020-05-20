@@ -16,6 +16,8 @@ export default {
       Create: '100',
       Destroy: '101',
     },
+
+    BulkUpdate: '108',
   },
 
   Client: {

@@ -1,4 +1,4 @@
-type AnswerPropsRequired = import('~models/answer').AnswerPropsRequired;
+import type { AnswerPropsRequired } from '~models/answer';
 
 export interface Packet {
   question: { id: string };

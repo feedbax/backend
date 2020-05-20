@@ -1,7 +1,12 @@
-type CreatedAnswer = import('~models/answer').AnswerResolvedFlat;
+import type { $Context, ContextKeys } from '~packets/context';
+import type { AnswerResolvedFlat as CreatedAnswer } from '~models/answer';
 
-type Context = {
-  question: { id: string };
-};
+export type ContextProps = ContextKeys.questionId;
+export type Context = (
+  Pick<$Context, ContextProps> & {
+    // branding is necessary to preserve custom type in intellisense
+    __brand?: unknown;
+  }
+);
 
 export type Packet = [Context, CreatedAnswer];

@@ -12,6 +12,16 @@ export interface LikePropsOptional {}
 
 export interface LikeProperties extends LikePropsRequired, LikePropsOptional {}
 
-export interface LikeResolved extends LikeProperties {
-  id: string;
+export enum LikeKeys {
+  id,
+  author
+}
+
+// branding is necessary to preserve custom type in intellisense
+type LikeId = string & { __brand?: unknown };
+type LikeAuthor = string & { __brand?: unknown };
+
+export interface LikeResolved {
+  [LikeKeys.id]: LikeId;
+  [LikeKeys.author]: LikeAuthor;
 }

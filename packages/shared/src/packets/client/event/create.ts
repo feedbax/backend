@@ -1,4 +1,4 @@
-type EventPropsRequired = import('~models/event').EventPropsRequired;
+import type { EventPropsRequired } from '~models/event';
 
 export interface Packet {
   event: EventPropsRequired;

@@ -1,7 +1,6 @@
-type QuestionPropsRequired = import('~models/question').QuestionPropsRequired;
-type AnswerPropsRequired = import('~models/answer').AnswerPropsRequired;
+import type { QuestionPropsRequired, InsertionType } from '~models/question';
+import type { AnswerPropsRequired } from '~models/answer';
 
-type InsertionType = import('~models/question').InsertionType;
 
 export interface MaybeAnswers {
   answers?: Omit<AnswerPropsRequired, 'author'>[];
