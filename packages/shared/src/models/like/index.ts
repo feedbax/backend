@@ -11,8 +11,3 @@ export interface LikePropsRequired {
 export interface LikePropsOptional {}
 
 export interface LikeProperties extends LikePropsRequired, LikePropsOptional {}
-
-export enum LikeKeys {
-  id,
-  author
-}
