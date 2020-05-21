@@ -1,4 +1,5 @@
 import Packets from '@shared/packets/ids';
+import { ResponseKeys, ResErrorKeys } from '@shared/packets/response/ResponseObject';
 
 import { error, debug } from '~lib/logger';
 import { validateUUIDSync } from '~lib/validate-uuid';
@@ -31,18 +32,18 @@ const handler: Handler = async function (packet, response) {
     };
 
     response({
-      success: true,
-      data: eventsProps,
+      [ResponseKeys.success]: true,
+      [ResponseKeys.data]: eventsProps,
     });
   } catch (err) {
     error(logPath, this.socket.id, err);
 
     response({
-      success: false,
-      data: undefined,
-      error: {
-        name: err.name,
-        message: err.message,
+      [ResponseKeys.success]: false,
+      [ResponseKeys.data]: undefined,
+      [ResponseKeys.error]: {
+        [ResErrorKeys.name]: err.name,
+        [ResErrorKeys.message]: err.message,
       },
     });
   }

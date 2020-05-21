@@ -1,5 +1,6 @@
 import Packets from '@shared/packets/ids';
 import { EventKeys } from '@shared/models/event';
+import { ResponseKeys, ResErrorKeys } from '@shared/packets/response/ResponseObject';
 
 import { debug, error } from '~lib/logger';
 
@@ -38,18 +39,18 @@ const handler: Handler = async function (packet, response) {
     };
 
     response({
-      success: true,
-      data: eventResolved,
+      [ResponseKeys.success]: true,
+      [ResponseKeys.data]: eventResolved,
     });
   } catch (err) {
     error(`${this.namespace.name}/event/get`, this.socket.id, err);
 
     response({
-      success: false,
-      data: undefined,
-      error: {
-        name: err.name,
-        message: err.message,
+      [ResponseKeys.success]: false,
+      [ResponseKeys.data]: undefined,
+      [ResponseKeys.error]: {
+        [ResErrorKeys.name]: err.name,
+        [ResErrorKeys.message]: err.message,
       },
     });
   }

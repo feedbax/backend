@@ -1,5 +1,6 @@
 import Packets from '@shared/packets/ids';
 import { ContextKeys } from '@shared/packets/context';
+import { ResponseKeys, ResErrorKeys } from '@shared/packets/response/ResponseObject';
 
 import { debug, error } from '~lib/logger';
 import BulkUpdateBroadcast, { UpdateAction } from '~lib/update-broadcast';
@@ -58,18 +59,18 @@ const handler: Handler = async function (this, packet, response) {
     });
 
     response({
-      success: true,
-      data: packetOut,
+      [ResponseKeys.success]: true,
+      [ResponseKeys.data]: packetOut,
     });
   } catch (err) {
     error(logPath, this.socket.id, err);
 
     response({
-      success: false,
-      data: undefined,
-      error: {
-        name: err.name,
-        message: err.message,
+      [ResponseKeys.success]: false,
+      [ResponseKeys.data]: undefined,
+      [ResponseKeys.error]: {
+        [ResErrorKeys.name]: err.name,
+        [ResErrorKeys.message]: err.message,
       },
     });
   }

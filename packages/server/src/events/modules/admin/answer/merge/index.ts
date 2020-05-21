@@ -1,4 +1,5 @@
 import Packets from '@shared/packets/ids';
+import { ResponseKeys, ResErrorKeys } from '@shared/packets/response/ResponseObject';
 
 import { userNamespace, adminNamespace } from '~server';
 import { debug, error } from '~lib/logger';
@@ -58,18 +59,18 @@ const handler: Handler = async function (packet, response) {
     adminNamespace.to(currentEventId).emit(Packets.Server.Answer.Merge, ...packetOut);
 
     response({
-      success: true,
-      data: undefined,
+      [ResponseKeys.success]: true,
+      [ResponseKeys.data]: undefined,
     });
   } catch (err) {
     error(logPath, this.socket.id, err);
 
     response({
-      success: false,
-      data: undefined,
-      error: {
-        name: err.name,
-        message: err.message,
+      [ResponseKeys.success]: false,
+      [ResponseKeys.data]: undefined,
+      [ResponseKeys.error]: {
+        [ResErrorKeys.name]: err.name,
+        [ResErrorKeys.message]: err.message,
       },
     });
   }
