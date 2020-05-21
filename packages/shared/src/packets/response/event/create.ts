@@ -1,5 +1,8 @@
-import type { CreateResponseFn } from '~packets/response/Response';
 import type { EventResolvedFlat } from '~models/event';
+import type { CreateResponseFn } from '~packets/response/Response';
+import type { ResponseKeys, ResponseObject } from '~packets/response/ResponseObject';
 
-export type ResponseFn = CreateResponseFn<EventResolvedFlat[]>;
-export type Response = NonNullable<Parameters<ResponseFn>[0]['data']>;
+type Data = EventResolvedFlat[];
+
+export type ResponseFn = CreateResponseFn<Data>;
+export type Response = ResponseObject<Data>[ResponseKeys.data];

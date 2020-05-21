@@ -1,5 +1,8 @@
 import type { CreateResponseFn } from '~packets/response/Response';
+import type { ResponseObject, ResponseKeys } from '~packets/response/ResponseObject';
 import type { Packet } from '~packets/server/answer/create';
 
-export type ResponseFn = CreateResponseFn<Packet>;
-export type Response = NonNullable<Parameters<ResponseFn>[0]['data']>;
+type Data = Packet;
+
+export type ResponseFn = CreateResponseFn<Data>;
+export type Response = ResponseObject<Data>[ResponseKeys.data];

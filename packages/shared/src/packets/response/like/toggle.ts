@@ -1,4 +1,5 @@
 import type { CreateResponseFn } from '~packets/response/Response';
+import type { ResponseObject, ResponseKeys } from '~packets/response/ResponseObject';
 import type { Packet as PacketCreate } from '~packets/server/like/create';
 import type { Packet as PacketDestroy } from '~packets/server/like/destroy';
 import type { ToggleActions } from '~models/like';
@@ -16,4 +17,4 @@ export type DestroyedAction = {
 type Actions = CreatedAction | DestroyedAction;
 
 export type ResponseFn = CreateResponseFn<Actions>;
-export type Response = NonNullable<Parameters<ResponseFn>[0]['data']>;
+export type Response = ResponseObject<Actions>[ResponseKeys.data];

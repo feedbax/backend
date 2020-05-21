@@ -1,4 +1,7 @@
 import type { CreateResponseFn } from '~packets/response/Response';
+import type { ResponseObject, ResponseKeys } from '~packets/response/ResponseObject';
 
-export type ResponseFn = CreateResponseFn<undefined>;
-export type Response = Parameters<ResponseFn>[0]['data'];
+type Data = undefined;
+
+export type ResponseFn = CreateResponseFn<Data>;
+export type Response = ResponseObject<Data>[ResponseKeys.data];
