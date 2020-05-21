@@ -1,5 +1,4 @@
 import type { $Context, ContextKeys } from '~packets/context';
-import type { LikeResolved } from '~models/like';
 
 type ContextProps = ContextKeys.questionId | ContextKeys.answerId;
 
@@ -10,15 +9,19 @@ export type Context = (
   }
 );
 
-export type CreatedLikes = LikeResolved[];
-
 // branding is necessary to preserve custom type in intellisense
-export type DestroyedLikesIds = string[] & { __brand?: unknown };
+type QuestionId = string & { __brand?: unknown };
+type AnswerId = string & { __brand?: unknown };
+type LikesCount = number & { __brand?: unknown };
+
+export type LikeUpdateAnswer = [AnswerId, LikesCount];
+export type LikeUpdateQuestion = [QuestionId, LikesCount];
+
 export type DestroyedAnswersIds = string[] & { __brand?: unknown };
 
 export type Packet = [
   Context,
-  CreatedLikes,
-  DestroyedLikesIds,
+  LikeUpdateAnswer,
+  LikeUpdateQuestion,
   DestroyedAnswersIds
 ];

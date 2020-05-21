@@ -1,5 +1,4 @@
 import type { $Context, ContextKeys } from '~packets/context';
-import type { LikeResolved as CreatedLike } from '~models/like';
 
 type ContextProps = ContextKeys.questionId | ContextKeys.answerId;
 
@@ -10,4 +9,4 @@ export type Context = (
   }
 );
 
-export type Packet = [Context, CreatedLike];
+export type Packet = [Context];

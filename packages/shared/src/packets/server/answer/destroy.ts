@@ -10,7 +10,12 @@ export type Context = (
 );
 
 // branding is necessary to preserve custom type in intellisense
-export type DestroyedAnswerId = string & { __brand?: unknown };
-export type DestroyedLikesIds = string[] & { __brand?: unknown };
+type QuestionId = string & { __brand?: unknown };
+type LikesCount = number & { __brand?: unknown };
 
-export type Packet = [Context, DestroyedAnswerId, DestroyedLikesIds];
+export type LikeUpdateQuestion = [QuestionId, LikesCount];
+
+// branding is necessary to preserve custom type in intellisense
+export type DestroyedAnswerId = string & { __brand?: unknown };
+
+export type Packet = [Context, LikeUpdateQuestion, DestroyedAnswerId];
