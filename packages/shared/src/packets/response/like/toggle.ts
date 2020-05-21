@@ -4,14 +4,19 @@ import type { Packet as PacketCreate } from '~packets/server/like/create';
 import type { Packet as PacketDestroy } from '~packets/server/like/destroy';
 import type { ToggleActions } from '~models/like';
 
+export enum ActionKeys {
+  action,
+  payload
+}
+
 export type CreatedAction = {
-  action: ToggleActions.Created;
-  payload: PacketCreate;
+  [ActionKeys.action]: ToggleActions.Created;
+  [ActionKeys.payload]: PacketCreate;
 };
 
 export type DestroyedAction = {
-  action: ToggleActions.Destroyed;
-  payload: PacketDestroy;
+  [ActionKeys.action]: ToggleActions.Destroyed;
+  [ActionKeys.payload]: PacketDestroy;
 };
 
 type Actions = CreatedAction | DestroyedAction;
