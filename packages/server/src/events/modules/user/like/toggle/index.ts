@@ -13,7 +13,7 @@ import statics from '~models/statics';
 
 import type { Packet as PacketOutCreate } from '@shared/packets/server/like/create';
 import type { Packet as PacketOutDestroy } from '@shared/packets/server/like/destroy';
-import type { Response } from '@shared/packets/response/like/toggle';
+import { Response, ActionKeys } from '@shared/packets/response/like/toggle';
 
 import type { Handler } from './types';
 
@@ -35,34 +35,33 @@ const handler: Handler = async function (this, packet, response) {
       { answerId },
     );
 
-    let $packetOut: PacketOutCreate | PacketOutDestroy;
-    let $action: Response;
+    let $data: Response;
 
     // eslint-disable-next-line default-case
     switch (action) {
       case ToggleActions.Created: {
-        $packetOut = [
+        const $packetOut: PacketOutCreate = [
           context,
           like,
         ];
 
-        $action = {
-          action,
-          payload: $packetOut,
+        $data = {
+          [ActionKeys.action]: action,
+          [ActionKeys.payload]: $packetOut,
         };
 
         break;
       }
 
       case ToggleActions.Destroyed: {
-        $packetOut = [
+        const $packetOut: PacketOutDestroy = [
           context,
           like[LikeKeys.id],
         ];
 
-        $action = {
-          action,
-          payload: $packetOut,
+        $data = {
+          [ActionKeys.action]: action,
+          [ActionKeys.payload]: $packetOut,
         };
 
         break;
@@ -82,7 +81,7 @@ const handler: Handler = async function (this, packet, response) {
 
     response({
       [ResponseKeys.success]: true,
-      [ResponseKeys.data]: $action,
+      [ResponseKeys.data]: $data,
     });
   } catch (err) {
     error(`${this.namespace.name}/like/toggle`, this.socket.id, err);
