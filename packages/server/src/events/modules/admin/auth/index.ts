@@ -1,5 +1,5 @@
 import Packets from '@shared/packets/ids';
-import { ResponseKeys, ResErrorKeys } from '@shared/packets/response/ResponseObject';
+import { ResponseKeys as R, ResErrorKeys as E } from '@shared/packets/response/ResponseObject';
 
 import { validateUUIDSync } from '~lib/validate-uuid';
 import { debug } from '~lib/logger';
@@ -13,11 +13,11 @@ const emptyFn = (..._args: any[]): void => { /* nothing */ };
 const createRes: Res = (res) => (
   (err): void => {
     res({
-      [ResponseKeys.success]: false,
-      [ResponseKeys.data]: undefined,
-      [ResponseKeys.error]: {
-        [ResErrorKeys.name]: err.name,
-        [ResErrorKeys.message]: err.message,
+      [R.success]: false,
+      [R.data]: undefined,
+      [R.error]: {
+        [E.name]: err.name,
+        [E.message]: err.message,
       },
     });
   }
