@@ -11,7 +11,7 @@ import store, { ApiStoreDefault, DispatchAll } from '~store';
 import actions from '~actions';
 import handlers from '~handlers';
 
-import { ResponseObject, ResponseKeys } from '@shared/packets/response/ResponseObject';
+import { ResponseObject, ResponseKeys as R } from '@shared/packets/response/ResponseObject';
 
 import type { Socket, ConnectOpts } from './types';
 import type { SendPacket } from './types';
@@ -75,10 +75,10 @@ class FBXAPI extends EventEmitter {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.socket.emit(id, data, (res: ResponseObject<any>) => {
-        if (res[ResponseKeys.success]) {
-          resolve(res[ResponseKeys.data]);
+        if (res[R.success]) {
+          resolve(res[R.data]);
         } else {
-          reject(res[ResponseKeys.error]);
+          reject(res[R.error]);
         }
       });
     });

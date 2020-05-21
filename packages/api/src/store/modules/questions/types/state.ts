@@ -5,7 +5,8 @@ export interface QuestionState extends QuestionProperties {
   id: string;
   eventId: string;
   answers: string[];
-  likes: string[];
+  likes: number;
+  hasLiked: boolean;
 }
 
 export interface QuestionsState {
@@ -19,6 +20,7 @@ export const NoneQuestion: QuestionState = {
   type: QuestionType.NONE,
   settings: {},
   text: '',
-  likes: [],
+  likes: 0,
+  hasLiked: false,
   answers: [],
 };

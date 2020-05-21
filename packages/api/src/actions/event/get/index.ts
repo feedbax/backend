@@ -19,7 +19,6 @@ const get: Get = async function (props) {
         Actions.Event.loadEvent(res),
         Actions.Question.addQuestionsByEvent(res),
         Actions.Answer.addAnswersByEvent(res),
-        Actions.Like.addLikesByEvent(res),
       );
 
       return res;

@@ -1,25 +1,21 @@
 import { Actions } from '~store/modules';
-import { ContextKeys } from '@shared/packets/context';
-import { LikeKeys } from '@shared/models/like';
+import { ContextKeys as C } from '@shared/packets/context';
 
 import type { Create } from './types';
 
-const handler: Create = function (context, like) {
-  const { api } = this.store.getState();
-  const { event } = api;
-  const { id: eventId } = event;
-
+const handler: Create = function (context) {
   const {
-    [ContextKeys.questionId]: questionId,
-    [ContextKeys.answerId]: answerId,
+    [C.questionId]: questionId,
+    [C.answerId]: answerId,
   } = context;
 
-  const likeId = like[LikeKeys.id];
+  // TODO increase answer likes
+  // TODO increase question likes
+  // TODO hasLiked?
 
   this.store.dispatchAll(
-    Actions.Like.addLike({ eventId, questionId, answerId }, like),
-    Actions.Answer.addLike(answerId, likeId),
-    Actions.Question.addLike(questionId, likeId),
+    // Actions.Answer.addLike(answerId),
+    // Actions.Question.addLike(questionId),
   );
 };
 

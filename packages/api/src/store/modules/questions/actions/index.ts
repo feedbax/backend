@@ -1,9 +1,9 @@
 import flattenDeep from 'lodash.flattendeep';
 
-import { EventKeys } from '@shared/models/event';
-import { QuestionKeys } from '@shared/models/question';
-import { AnswerKeys } from '@shared/models/answer';
-import { LikeKeys } from '@shared/models/like';
+import { EventKeys as E } from '@shared/models/event';
+import { QuestionKeys as Q } from '@shared/models/question';
+import { AnswerKeys as A } from '@shared/models/answer';
+import { LikeKeys as L } from '@shared/models/like';
 
 import * as ActionTypes from '~store/modules/questions/types';
 import * as Actions from './types';
@@ -14,20 +14,20 @@ export const addQuestion: Actions.AddQuestion = (eventId, question) => ({
   payload: {
     eventId,
 
-    id: question[QuestionKeys.id],
-    order: question[QuestionKeys.order],
-    settings: question[QuestionKeys.settings],
-    text: question[QuestionKeys.text],
-    type: question[QuestionKeys.type],
+    id: question[Q.id],
+    order: question[Q.order],
+    settings: question[Q.settings],
+    text: question[Q.text],
+    type: question[Q.type],
 
-    answers: question[QuestionKeys.answers]?.map(
-      (answer) => answer[AnswerKeys.id]
+    answers: question[Q.answers]?.map(
+      (answer) => answer[A.id]
     ) || [],
 
     likes: flattenDeep(
-      question[QuestionKeys.answers]?.map(
-        (answer) => answer[AnswerKeys.likes]?.map(
-          (like) => like[LikeKeys.id]
+      question[Q.answers]?.map(
+        (answer) => answer[A.likes]?.map(
+          (like) => like[L.id]
         ) || []
       ) || [],
     ) || [],
@@ -37,24 +37,24 @@ export const addQuestion: Actions.AddQuestion = (eventId, question) => ({
 export const addQuestionsByEvent: Actions.AddQuestionsByEvent = (event) => ({
   type: ActionTypes.ADD_QUESTIONS,
 
-  payload: event[EventKeys.questions]?.map(
+  payload: event[E.questions]?.map(
     (question) => ({
-      eventId: event[EventKeys.id],
+      eventId: event[E.id],
 
-      id: question[QuestionKeys.id],
-      order: question[QuestionKeys.order],
-      settings: question[QuestionKeys.settings],
-      text: question[QuestionKeys.text],
-      type: question[QuestionKeys.type],
+      id: question[Q.id],
+      order: question[Q.order],
+      settings: question[Q.settings],
+      text: question[Q.text],
+      type: question[Q.type],
 
-      answers: question[QuestionKeys.answers]?.map(
-        (answer) => answer[AnswerKeys.id]
+      answers: question[Q.answers]?.map(
+        (answer) => answer[A.id]
       ) || [],
 
       likes: flattenDeep(
-        question[QuestionKeys.answers]?.map(
-          (answer) => answer[AnswerKeys.likes]?.map(
-            (like) => like[LikeKeys.id]
+        question[Q.answers]?.map(
+          (answer) => answer[A.likes]?.map(
+            (like) => like[L.id]
           ) || []
         ) || [],
       ) || [],

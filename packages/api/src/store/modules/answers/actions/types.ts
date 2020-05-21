@@ -20,12 +20,12 @@ export interface AddAnswer {
   (eventId: string, questionId: string, answer: AnswerResolved): AnswerActions.AddAnswerAction;
 }
 
-export interface AddLike {
-  (answerId: string, likeId: string): AnswerActions.AddLikeAction;
+export interface IncreaseLikes {
+  (answerId: string): AnswerActions.IncreaseLikesAction;
 }
 
-export interface AddLikes {
-  (answerId: string, likeIds: string[]): AnswerActions.AddLikesAction;
+export interface IncreaseLikesBy {
+  (answerId: string, likesCount: number): AnswerActions.IncreaseLikesByAction;
 }
 
 export interface EditAnswer {
@@ -40,6 +40,6 @@ export interface RemoveAnswer {
   (answerId: string): AnswerActions.RemoveAnswerAction;
 }
 
-export interface RemoveLike {
-  (answerId: string, likeId: string): AnswerActions.RemoveLikeAction;
+export interface DecreaseLikes {
+  (answerId: string): AnswerActions.DecreaseLikesAction;
 }

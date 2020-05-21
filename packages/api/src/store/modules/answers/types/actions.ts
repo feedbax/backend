@@ -14,19 +14,18 @@ export interface AddAnswersAction {
   payload: AnswerState[];
 }
 
-export interface AddLikeAction {
-  type: typeof ActionTypes.ADD_LIKE;
+export interface IncreaseLikesAction {
+  type: typeof ActionTypes.INCREASE_LIKES;
   payload: {
     answerId: string;
-    likeId: string;
   };
 }
 
-export interface AddLikesAction {
-  type: typeof ActionTypes.ADD_LIKES;
+export interface IncreaseLikesByAction {
+  type: typeof ActionTypes.INCREASE_LIKES_BY;
   payload: {
     answerId: string;
-    likeIds: string[];
+    likesCount: number;
   };
 }
 
@@ -45,21 +44,20 @@ export interface RemoveAnswerAction {
   payload: string;
 }
 
-export interface RemoveLikeAction {
-  type: typeof ActionTypes.REMOVE_LIKE;
+export interface DecreaseLikesAction {
+  type: typeof ActionTypes.DECREASE_LIKES;
   payload: {
     answerId: string;
-    likeId: string;
   };
 }
 
 export type AnswersActions =
   | AddAnswerAction
   | AddAnswersAction
-  | AddLikeAction
-  | AddLikesAction
+  | IncreaseLikesAction
+  | IncreaseLikesByAction
   | EditAnswerAction
   | RemoveAnswerAction
   | RemoveAnswersAction
-  | RemoveLikeAction
+  | DecreaseLikesAction
   | ResetStateAction;

@@ -1,17 +1,17 @@
 import { Actions } from '~store/modules';
-import { ContextKeys } from '@shared/packets/context';
+import { ContextKeys as C } from '@shared/packets/context';
 
 import type { Destroy } from './types';
 
-const handler: Destroy = function (context, desAnswerId, desLikeIds) {
-  const { [ContextKeys.questionId]: questionId } = context;
+const handler: Destroy = function (context, likeUpdateQuestion, desAnswerId) {
+  const { [C.questionId]: questionId } = context;
 
   this.store.dispatchAll(
     Actions.Question.removeAnswer(questionId, desAnswerId),
     Actions.Answer.removeAnswer(desAnswerId),
 
-    Actions.Question.removeLikes(questionId, desLikeIds),
-    Actions.Like.removeLikes(desLikeIds),
+    // TODO: set question likes
+    // Actions.Question.removeLikes(questionId, desLikeIds),
   );
 };
 
