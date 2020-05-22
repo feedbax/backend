@@ -14,6 +14,7 @@ export const resolved: GetterResolved = (
       const answers = await Promise.all(answersPromise);
 
       const likes = await question.linkedLikesCount;
+      const [hasLiked] = await question.isLikedBy(userUUID);
 
       return {
         [QuestionKeys.id]: props.id,
@@ -23,7 +24,7 @@ export const resolved: GetterResolved = (
         [QuestionKeys.settings]: props.settings,
         [QuestionKeys.answers]: answers,
         [QuestionKeys.likes]: likes,
-        [QuestionKeys.hasLiked]: true,
+        [QuestionKeys.hasLiked]: hasLiked,
       };
     } catch (err) {
       error('QuestionModel', 'resolved', err);
