@@ -17,7 +17,11 @@ export interface AddAnswers {
 }
 
 export interface AddAnswer {
-  (eventId: string, questionId: string, answer: AnswerResolved): AnswerActions.AddAnswerAction;
+  (
+    eventId: string,
+    questionId: string,
+    answer: Partial<AnswerResolved> & AnswerResolvedFlat,
+  ): AnswerActions.AddAnswerAction;
 }
 
 export interface IncreaseLikes {

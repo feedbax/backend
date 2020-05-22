@@ -21,12 +21,17 @@ export default (state = { ...initialState }, action: AnswersActions): AnswersSta
 
     case ActionTypes.ADD_ANSWER: {
       const answer = action.payload;
+      const { [answer.id]: oldAnswer } = state;
 
       return {
         ...state,
 
         [answer.id]: {
+          ...oldAnswer,
           ...answer,
+
+          hasLiked: oldAnswer?.hasLiked || answer.hasLiked,
+          isMine: oldAnswer?.isMine || answer.isMine,
         },
       };
     }

@@ -32,7 +32,7 @@ const handler: Destroy = function (context) {
     Actions.Answer.decreaseLikes(answerId),
     Actions.Answer.setHasLiked(answerId, false),
     Actions.Question.decreaseLikes(questionId),
-    Actions.Question.setHasLiked(answerId, keepHasQuestionLiked),
+    Actions.Question.setHasLiked(questionId, keepHasQuestionLiked),
   );
 };
 

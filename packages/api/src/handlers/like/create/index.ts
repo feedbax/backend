@@ -13,7 +13,7 @@ const handler: Create = function (context) {
     Actions.Answer.increaseLikes(answerId),
     Actions.Answer.setHasLiked(answerId, true),
     Actions.Question.increaseLikes(questionId),
-    Actions.Question.setHasLiked(answerId, true),
+    Actions.Question.setHasLiked(questionId, true),
   );
 };
 

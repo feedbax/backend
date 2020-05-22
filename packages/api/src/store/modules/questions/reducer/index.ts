@@ -37,6 +37,10 @@ export default (state = { ...initialState }, action: QuestionsActions): Question
       const { questionId, answerId } = action.payload;
       const { [questionId]: question } = state;
 
+      if (question.answers.includes(answerId)) {
+        return state;
+      }
+
       return {
         ...state,
 

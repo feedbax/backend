@@ -46,6 +46,7 @@ class FBXAPI extends EventEmitter {
     this.socket.on(Packets.Server.Answer.Merge, handlers.answer.merge.bind(this));
     this.socket.on(Packets.Server.Question.Create, handlers.question.create.bind(this));
     this.socket.on(Packets.Server.Question.Destroy, handlers.question.destroy.bind(this));
+    this.socket.on(Packets.Server.BulkUpdate, handlers.bulkUpdate.bind(this));
 
     this.socket.on('connect', () => this.emit('connect'));
     this.socket.on('connect_error', (error: Error) => this.emit('connect_error', error));

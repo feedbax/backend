@@ -16,6 +16,8 @@ const handler: Create = function (context, answer) {
   const addedAnswer: AnswerResolved = {
     ...answer,
     [A.likes]: 0,
+    [A.hasLiked]: false,
+    [A.isMine]: true,
   };
 
   this.store.dispatchAll(

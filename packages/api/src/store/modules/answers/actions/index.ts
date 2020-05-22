@@ -36,8 +36,8 @@ export const addAnswers: Actions.AddAnswers = (eventId, questionId, answers) => 
       text: answer[A.text],
       time: answer[A.time],
       likes: answer[A.likes] || 0,
-      hasLiked: answer[A.hasLiked],
-      isMine: answer[A.isMine],
+      hasLiked: answer[A.hasLiked] || false,
+      isMine: answer[A.isMine] || false,
     }),
   ),
 });
@@ -51,8 +51,8 @@ export const addAnswer: Actions.AddAnswer = (eventId, questionId, answer) => ({
     text: answer[A.text],
     time: answer[A.time],
     likes: answer[A.likes] || 0,
-    hasLiked: answer[A.hasLiked],
-    isMine: answer[A.isMine],
+    hasLiked: answer[A.hasLiked] || false,
+    isMine: answer[A.isMine] || false,
   },
 });
 
