@@ -9,13 +9,11 @@ const handler: Create = function (context) {
     [C.answerId]: answerId,
   } = context;
 
-  // TODO increase answer likes
-  // TODO increase question likes
-  // TODO hasLiked?
-
   this.store.dispatchAll(
-    // Actions.Answer.addLike(answerId),
-    // Actions.Question.addLike(questionId),
+    Actions.Answer.increaseLikes(answerId),
+    Actions.Answer.setHasLiked(answerId, true),
+    Actions.Question.increaseLikes(questionId),
+    Actions.Question.setHasLiked(answerId, true),
   );
 };
 

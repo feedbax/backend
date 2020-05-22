@@ -51,6 +51,22 @@ export interface DecreaseLikesAction {
   };
 }
 
+export interface SetHasLikedAction {
+  type: typeof ActionTypes.SET_HAS_LIKED;
+  payload: {
+    answerId: string;
+    hasLiked: boolean;
+  };
+}
+
+export interface SetLikesAction {
+  type: typeof ActionTypes.SET_LIKES;
+  payload: {
+    answerId: string;
+    likes: number;
+  };
+}
+
 export type AnswersActions =
   | AddAnswerAction
   | AddAnswersAction
@@ -60,4 +76,6 @@ export type AnswersActions =
   | RemoveAnswerAction
   | RemoveAnswersAction
   | DecreaseLikesAction
+  | SetHasLikedAction
+  | SetLikesAction
   | ResetStateAction;

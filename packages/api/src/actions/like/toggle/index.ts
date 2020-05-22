@@ -7,8 +7,6 @@ import likeDestroyHandler from '~handlers/like/destroy';
 
 import type { Packet } from '@shared/packets/client/like/toggle';
 import type { Toggle, Response } from './types';
-import type { LikeId } from '@shared/packets/context';
-import type { LikeResolved } from '@shared/models/like';
 
 const toggle: Toggle = async function (props) {
   const { answer } = props;
@@ -25,14 +23,14 @@ const toggle: Toggle = async function (props) {
       // eslint-disable-next-line default-case
       switch (res[A.action]) {
         case ToggleActions.Created: {
-          const [context, like] = res[A.payload];
-          likeCreateHandler.bind(this)(context, like as LikeResolved);
+          const [context] = res[A.payload];
+          likeCreateHandler.bind(this)(context);
           break;
         }
 
         case ToggleActions.Destroyed: {
-          const [context, likeId] = res[A.payload];
-          likeDestroyHandler.bind(this)(context, likeId as LikeId);
+          const [context] = res[A.payload];
+          likeDestroyHandler.bind(this)(context);
           break;
         }
       }

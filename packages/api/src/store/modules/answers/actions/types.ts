@@ -43,3 +43,11 @@ export interface RemoveAnswer {
 export interface DecreaseLikes {
   (answerId: string): AnswerActions.DecreaseLikesAction;
 }
+
+export interface SetHasLiked {
+  (answerId: string, hasLiked: boolean): AnswerActions.SetHasLikedAction;
+}
+
+export interface SetLikes {
+  (answerId: string, likes: number): AnswerActions.SetLikesAction;
+}

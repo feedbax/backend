@@ -41,9 +41,6 @@ class FBXAPI extends EventEmitter {
   }
 
   private addEventHandlers = (): void => {
-    this.socket.on(Packets.Server.Like.Create, handlers.like.create.bind(this));
-    this.socket.on(Packets.Server.Like.Destroy, handlers.like.destroy.bind(this));
-    this.socket.on(Packets.Server.Answer.Create, handlers.answer.create.bind(this));
     this.socket.on(Packets.Server.Answer.Destroy, handlers.answer.destroy.bind(this));
     this.socket.on(Packets.Server.Answer.Edit, handlers.answer.edit.bind(this));
     this.socket.on(Packets.Server.Answer.Merge, handlers.answer.merge.bind(this));

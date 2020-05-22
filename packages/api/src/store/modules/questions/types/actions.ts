@@ -21,19 +21,18 @@ export interface AddAnswerAction {
   };
 }
 
-export interface AddLikeAction {
-  type: typeof ActionTypes.ADD_LIKE;
+export interface IncreaseLikesAction {
+  type: typeof ActionTypes.INCREASE_LIKES;
   payload: {
     questionId: string;
-    likeId: string;
   };
 }
 
-export interface AddLikesAction {
-  type: typeof ActionTypes.ADD_LIKES;
+export interface IncreaseLikesByAction {
+  type: typeof ActionTypes.INCREASE_LIKES_BY;
   payload: {
     questionId: string;
-    likeIds: string[];
+    likesCount: number;
   };
 }
 
@@ -63,19 +62,34 @@ export interface RemoveAnswersAction {
   };
 }
 
-export interface RemoveLikeAction {
-  type: typeof ActionTypes.REMOVE_LIKE;
+export interface DecreaseLikesAction {
+  type: typeof ActionTypes.DECREASE_LIKES;
   payload: {
     questionId: string;
-    likeId: string;
   };
 }
 
-export interface RemoveLikesAction {
-  type: typeof ActionTypes.REMOVE_LIKES;
+export interface DecreaseLikesByAction {
+  type: typeof ActionTypes.DECREASE_LIKES_BY;
   payload: {
     questionId: string;
-    likeIds: string[];
+    likesCount: number;
+  };
+}
+
+export interface SetHasLikedAction {
+  type: typeof ActionTypes.SET_HAS_LIKED;
+  payload: {
+    questionId: string;
+    hasLiked: boolean;
+  };
+}
+
+export interface SetLikesAction {
+  type: typeof ActionTypes.SET_LIKES;
+  payload: {
+    questionId: string;
+    likes: number;
   };
 }
 
@@ -83,12 +97,14 @@ export type QuestionsActions =
   | AddQuestionAction
   | AddQuestionsAction
   | AddAnswerAction
-  | AddLikeAction
-  | AddLikesAction
+  | IncreaseLikesAction
+  | IncreaseLikesByAction
   | RemoveQuestionAction
   | RemoveQuestionsAction
   | RemoveAnswerAction
   | RemoveAnswersAction
-  | RemoveLikeAction
-  | RemoveLikesAction
+  | DecreaseLikesAction
+  | DecreaseLikesByAction
+  | SetHasLikedAction
+  | SetLikesAction
   | ResetStateAction;

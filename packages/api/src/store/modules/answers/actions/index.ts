@@ -86,9 +86,29 @@ export const removeAnswer: Actions.RemoveAnswer = (answerId) => ({
   payload: answerId,
 });
 
-export const removeLike: Actions.DecreaseLikes = (answerId) => ({
+export const decreaseLikes: Actions.DecreaseLikes = (answerId) => ({
   type: ActionTypes.DECREASE_LIKES,
   payload: {
     answerId,
   },
 });
+
+export const setHasLiked: Actions.SetHasLiked = (
+  (answerId, hasLiked) => ({
+    type: ActionTypes.SET_HAS_LIKED,
+    payload: {
+      answerId,
+      hasLiked,
+    },
+  })
+);
+
+export const setLikes: Actions.SetLikes = (
+  (answerId, likes) => ({
+    type: ActionTypes.SET_LIKES,
+    payload: {
+      answerId,
+      likes,
+    },
+  })
+);

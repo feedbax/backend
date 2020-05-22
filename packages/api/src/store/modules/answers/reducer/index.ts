@@ -102,6 +102,34 @@ export default (state = { ...initialState }, action: AnswersActions): AnswersSta
       };
     }
 
+    case ActionTypes.SET_HAS_LIKED: {
+      const { answerId, hasLiked } = action.payload;
+      const { [answerId]: answer } = state;
+
+      return {
+        ...state,
+
+        [answer.id]: {
+          ...answer,
+          hasLiked,
+        },
+      };
+    }
+
+    case ActionTypes.SET_LIKES: {
+      const { answerId, likes } = action.payload;
+      const { [answerId]: answer } = state;
+
+      return {
+        ...state,
+
+        [answer.id]: {
+          ...answer,
+          likes,
+        },
+      };
+    }
+
     case RESET_STATE:
       return { ...initialState };
 

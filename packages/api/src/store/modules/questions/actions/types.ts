@@ -15,12 +15,12 @@ export interface AddAnswer {
   (questionId: string, answerId: string): QuestionActions.AddAnswerAction;
 }
 
-export interface AddLike {
-  (questionId: string, likeId: string): QuestionActions.AddLikeAction;
+export interface IncreaseLikes {
+  (questionId: string): QuestionActions.IncreaseLikesAction;
 }
 
-export interface AddLikes {
-  (questionId: string, likeIds: string[]): QuestionActions.AddLikesAction;
+export interface IncreaseLikesBy {
+  (questionId: string, likesCount: number): QuestionActions.IncreaseLikesByAction;
 }
 
 export interface RemoveQuestion {
@@ -39,10 +39,18 @@ export interface RemoveAnswers {
   (questionId: string, answerIds: string[]): QuestionActions.RemoveAnswersAction;
 }
 
-export interface RemoveLike {
-  (questionId: string, likeId: string): QuestionActions.RemoveLikeAction;
+export interface DecreaseLikes {
+  (questionId: string): QuestionActions.DecreaseLikesAction;
 }
 
-export interface RemoveLikes {
-  (questionId: string, likeIds: string[]): QuestionActions.RemoveLikesAction;
+export interface DecreaseLikesBy {
+  (questionId: string, likesCount: number): QuestionActions.DecreaseLikesByAction;
+}
+
+export interface SetHasLiked {
+  (questionId: string, hasLiked: boolean): QuestionActions.SetHasLikedAction;
+}
+
+export interface SetLikes {
+  (questionId: string, likes: number): QuestionActions.SetLikesAction;
 }

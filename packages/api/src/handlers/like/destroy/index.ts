@@ -9,13 +9,30 @@ const handler: Destroy = function (context) {
     [C.answerId]: answerId,
   } = context;
 
-  // TODO decrease answer likes
-  // TODO decrease question likes
-  // TODO hasLiked?
+  const { api } = this.store.getState();
+  const { questions, answers } = api;
+
+  const { [questionId]: question } = questions;
+  const questionAnswersIds = question.answers;
+
+  const likedQuestionAnswers = (
+    Object
+      .values(answers)
+      .filter(
+        (answerState) => (
+          questionAnswersIds.includes(answerState.id)
+          && answerState.hasLiked
+        ),
+      )
+  );
+
+  const keepHasQuestionLiked = likedQuestionAnswers.length >= 2;
 
   this.store.dispatchAll(
-    // Actions.Answer.removeLike(answerId, likeId),
-    // Actions.Question.removeLike(questionId, likeId),
+    Actions.Answer.decreaseLikes(answerId),
+    Actions.Answer.setHasLiked(answerId, false),
+    Actions.Question.decreaseLikes(questionId),
+    Actions.Question.setHasLiked(answerId, keepHasQuestionLiked),
   );
 };
 
