@@ -7,7 +7,7 @@ import * as getter from './getter';
 
 import definitions from './definitions';
 
-import type { LikeProperties, LikeResolved } from '@shared/models/like';
+import type { LikeProperties } from '@shared/models/like';
 
 import type { AnswerModel } from '~models/Answer';
 import type { EventModel } from '~models/Event';
@@ -31,9 +31,5 @@ export class LikeModel extends NohmModel<LikeProperties> {
 
   public get parentEvent(): Promise<EventModel> {
     return getter.parentEvent.bind(this)();
-  }
-
-  public get resolved(): LikeResolved {
-    return getter.resolved.bind(this)();
   }
 }

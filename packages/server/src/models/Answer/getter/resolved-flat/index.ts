@@ -5,14 +5,13 @@ import type { GetterResolvedFlat } from './types';
 import { AnswerKeys } from '@shared/models/answer';
 
 export const resolvedFlat: GetterResolvedFlat = (
-  function () {
+  function (this) {
     try {
       const props = this.allProperties();
 
       return {
         [AnswerKeys.id]: props.id,
         [AnswerKeys.text]: props.text,
-        [AnswerKeys.author]: props.author,
         [AnswerKeys.time]: props.time,
       };
     } catch (err) {

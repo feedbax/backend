@@ -32,10 +32,10 @@ export interface AnswerResolvedFlat {
   [AnswerKeys.id]: AnswerId;
   [AnswerKeys.text]: AnswerText;
   [AnswerKeys.time]: AnswerTime;
-  [AnswerKeys.isMine]: AnswerIsMine;
-  [AnswerKeys.hasLiked]: AnswerHasLiked;
 }
 
 export interface AnswerResolved extends AnswerResolvedFlat {
   [AnswerKeys.likes]: AnswerLikesCount;
+  [AnswerKeys.hasLiked]: AnswerHasLiked;
+  [AnswerKeys.isMine]: AnswerIsMine;
 }

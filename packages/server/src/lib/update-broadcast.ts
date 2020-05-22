@@ -9,8 +9,6 @@ import { LikeUpdates, LikeUpdateAnswer, LikeUpdateQuestion } from '@shared/packe
 
 import type { Packet as AddAnswerPacket } from '@shared/packets/server/answer/create';
 import type { Packet as PacketOut } from '@shared/packets/server/bulk-update';
-import { AnswerKeys } from '@shared/models/answer';
-import { QuestionKeys } from '@shared/models/question';
 
 export enum UpdateAction {
   UpdateLikes,
@@ -151,30 +149,19 @@ class BulkUpdateBroadcast {
 
       const questionIds = Array.from(updateData.likeUpdates.questions.values());
       const questionModels = await QuestionModelStatic.get({ ids: questionIds });
-      const questionsResolvedPromises = [];
 
-      for (let i = 0; i < questionModels.length; i += 1) {
-        const questionModel = questionModels[i];
-        const promise = questionModel.resolved;
+      const likeUpdatesAnswer: Promise<LikeUpdateQuestion>[] = (
+        questionModels.map(
+          async (question) => {
+            const questionLikes = await question.linkedLikesCount;
+            const likeUpdate: LikeUpdateQuestion = [question.id || '', questionLikes];
 
-        questionsResolvedPromises.push(promise);
-      }
-
-      const questionsResolved = await Promise.all(questionsResolvedPromises);
-      const likeUpdatesAnswer: LikeUpdateQuestion[] = questionsResolved.map(
-        (question) => {
-          const flatten = <T>(acc: T[], val: T[]): T[] => acc.concat(val);
-          const questionLikesDeep = question[QuestionKeys.answers].map(
-            (answer) => answer[AnswerKeys.likes],
-          );
-
-          const questionLikes = questionLikesDeep.reduce(flatten, []);
-
-          return [question[QuestionKeys.id] || '', questionLikes.length];
-        },
+            return likeUpdate;
+          },
+        )
       );
 
-      return likeUpdatesAnswer;
+      return Promise.all(likeUpdatesAnswer);
     }
   );
 
@@ -184,21 +171,19 @@ class BulkUpdateBroadcast {
 
       const answerIds = Array.from(updateData.likeUpdates.answers.values());
       const answerModels = await AnswerModelStatic.get({ ids: answerIds });
-      const answersResolvedPromises = [];
 
-      for (let i = 0; i < answerModels.length; i += 1) {
-        const answerModel = answerModels[i];
-        const promise = answerModel.resolved;
+      const likeUpdatesQuestion: Promise<LikeUpdateAnswer>[] = (
+        answerModels.map(
+          async (answer) => {
+            const answerLikes = await answer.linkedLikesCount;
+            const likeUpdate: LikeUpdateAnswer = [answer.id || '', answerLikes];
 
-        answersResolvedPromises.push(promise);
-      }
-
-      const answersResolved = await Promise.all(answersResolvedPromises);
-      const likeUpdatesAnswer: LikeUpdateAnswer[] = answersResolved.map(
-        (answer) => [answer[AnswerKeys.id] || '', answer[AnswerKeys.likes].length],
+            return likeUpdate;
+          },
+        )
       );
 
-      return likeUpdatesAnswer;
+      return Promise.all(likeUpdatesQuestion);
     }
   );
 }

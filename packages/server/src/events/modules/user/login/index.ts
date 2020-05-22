@@ -22,7 +22,7 @@ const handler: Handler = async function (this, packet, response) {
     }
 
     const event = await EventModelStatic.get({ slug: packet.event.slug });
-    const eventResolved = await event.resolved;
+    const eventResolved = await event.resolved(packet.user.uuid);
     const currentEventId = eventResolved[EventKeys.id];
 
     this.socket.join(currentEventId);

@@ -3,20 +3,14 @@ import statics from '~models/statics';
 import { AnswerError } from '~types/errors';
 import { ContextKeys } from '@shared/packets/context';
 
-import type { LikeModel } from '~models/Like';
-
 import type { WithAnswer, WithAnswerId } from './types';
 import type { Destroy, Props } from './types';
-
-const getLikeId = (like: LikeModel): string => {
-  if (like.id === null) throw new Error('like-id-null');
-  return like.id;
-};
 
 const withAnswer: WithAnswer = (
   async (answer) => {
     try {
-      const questionId = (await answer.parent).id;
+      const question = await answer.parent;
+      const questionId = question.id;
       const destroyedAnswerId = answer.id;
 
       if (questionId === null) {
@@ -32,8 +26,6 @@ const withAnswer: WithAnswer = (
       };
 
       const destroyedLikes = await answer.linkedLikes;
-      const destroyedLikesIds = destroyedLikes.map(getLikeId);
-
       const likesRemovePromises = [];
 
       for (let i = 0; i < destroyedLikes.length; i += 1) {
@@ -46,10 +38,12 @@ const withAnswer: WithAnswer = (
       await Promise.all(likesRemovePromises);
       await answer.remove();
 
+      const questionLikes = (await question.linkedLikes).length;
+
       return {
         context,
+        questionLikes,
         destroyedAnswerId,
-        destroyedLikesIds,
       };
     } catch (err) {
       error('Answer', 'destroy', 'withAnswer', err);

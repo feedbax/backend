@@ -33,7 +33,7 @@ const handler: Handler = async function (packet, response) {
     const { currentEventId } = this.socket.auth;
     const { answer: { id: answerId } } = packet;
 
-    const { context, destroyedAnswerId, destroyedLikesIds } = (
+    const { context, destroyedAnswerId } = (
       await AnswerModelStatic.destroy({
         answerId,
       })
@@ -41,8 +41,8 @@ const handler: Handler = async function (packet, response) {
 
     const packetOut: PacketOut = [
       context,
+      0,
       destroyedAnswerId,
-      destroyedLikesIds,
     ];
 
     userNamespace

@@ -35,7 +35,6 @@ const handler: Handler = async function (packet, response) {
     const {
       destroyedQuestionId,
       destroyedAnswersIds,
-      destroyedLikesIds,
     } = await QuestionModelStatic.destroy({
       questionId: packet.question.id,
     });
@@ -43,7 +42,6 @@ const handler: Handler = async function (packet, response) {
     const packetOut: PacketOut = [
       destroyedQuestionId,
       destroyedAnswersIds,
-      destroyedLikesIds,
     ];
 
     userNamespace

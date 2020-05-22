@@ -5,20 +5,21 @@ import { EventResolved, EventKeys } from '@shared/models/event';
 import type { GetterResolved } from './types';
 
 export const resolved: GetterResolved = (
-  async function () {
+  async function (event, userUUID) {
     try {
-      const Questions = await this.linkedQuestions;
-      const questions = Questions.map((Question) => Question.resolved);
-      const props = this.allProperties();
+      const props = event.allProperties();
 
-      const event: EventResolved = {
+      const Questions = await event.linkedQuestions;
+      const questions = Questions.map((Question) => Question.resolved(userUUID));
+
+      const eventResolved: EventResolved = {
         [EventKeys.id]: props.id,
         [EventKeys.slug]: props.slug,
         [EventKeys.settings]: props.settings,
         [EventKeys.questions]: await Promise.all(questions),
       };
 
-      return event;
+      return eventResolved;
     } catch (err) {
       error('EventModel', 'resolved', err);
       throw new EventError('resolved');

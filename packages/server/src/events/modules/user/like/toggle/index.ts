@@ -1,5 +1,5 @@
 import Packets from '@shared/packets/ids';
-import { ToggleActions, LikeKeys } from '@shared/models/like';
+import { ToggleActions } from '@shared/models/like';
 import { ContextKeys } from '@shared/packets/context';
 import { ResponseKeys as R, ResErrorKeys as E } from '@shared/packets/response/ResponseObject';
 
@@ -30,7 +30,7 @@ const handler: Handler = async function (this, packet, response) {
     const { currentEventId } = this.socket.auth;
     const { id: answerId } = answer;
 
-    const [action, context, like] = await LikeModelStatic.toggle(
+    const [action, context] = await LikeModelStatic.toggle(
       this.socket.auth.browserUUID,
       { answerId },
     );
@@ -42,7 +42,6 @@ const handler: Handler = async function (this, packet, response) {
       case ToggleActions.Created: {
         const $packetOut: PacketOutCreate = [
           context,
-          like,
         ];
 
         $data = {
@@ -56,7 +55,6 @@ const handler: Handler = async function (this, packet, response) {
       case ToggleActions.Destroyed: {
         const $packetOut: PacketOutDestroy = [
           context,
-          like[LikeKeys.id],
         ];
 
         $data = {

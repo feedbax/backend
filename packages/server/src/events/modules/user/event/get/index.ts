@@ -27,7 +27,7 @@ const handler: Handler = async function (packet, response) {
     }
 
     const event = await EventModelStatic.get({ id: packet.event.id });
-    const eventResolved = await event.resolved;
+    const eventResolved = await event.resolved(this.socket.auth.browserUUID);
     const currentEventId = eventResolved[EventKeys.id];
 
     this.socket.leaveAll();

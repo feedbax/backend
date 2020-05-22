@@ -43,15 +43,15 @@ const handler: Handler = async function (packet, response) {
 
     const {
       context,
-      createdLikes,
+      questionLikes,
+      answerLikes,
       destroyedAnswersIds,
-      destroyedLikesIds,
     } = mergeResult;
 
     const packetOut: PacketOut = [
       context,
-      createdLikes,
-      destroyedLikesIds,
+      questionLikes,
+      answerLikes,
       destroyedAnswersIds,
     ];
 

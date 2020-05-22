@@ -5,3 +5,4 @@ export * from './get';
 export * from './is-liked-by';
 export * from './merge';
 export * from './move';
+export * from './resolved';

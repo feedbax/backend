@@ -49,7 +49,7 @@ const handler: Handler = async function (packet, response) {
 
     const Answers = await Promise.all(answerPromises);
 
-    const questionResolved = await Question.resolved;
+    const questionResolved = await Question.resolved(this.socket.auth.browserUUID);
     const answersResolved = Answers.map((answer) => answer.resolvedFlat);
 
     const packetOut: PacketOut = [

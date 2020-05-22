@@ -12,9 +12,9 @@ import type { QuestionModel } from '~models/Question';
 import type { EventModel } from '~models/Event';
 import type { LikeModel } from '~models/Like';
 
-import type { AnswerResolved, AnswerProperties, AnswerResolvedFlat } from '@shared/models/answer';
+import type { AnswerProperties, AnswerResolvedFlat } from '@shared/models/answer';
 
-import type { Definitions } from './types';
+import type { Definitions, Resolved } from './types';
 import type { Move, IsLikedBy } from './types';
 import type { CreateLike } from './types';
 
@@ -30,6 +30,7 @@ export class AnswerModel extends NohmModel<AnswerProperties> {
   public static destroy = actions.destroy;
   public static edit = actions.edit;
   public static merge = actions.merge;
+  public static resolved = actions.resolved;
 
   protected static definitions: Definitions = definitions;
 
@@ -41,17 +42,21 @@ export class AnswerModel extends NohmModel<AnswerProperties> {
     return getter.parentEvent.bind(this)();
   }
 
-  public get resolved(): Promise<AnswerResolved> {
-    return getter.resolved.bind(this)();
+  public get linkedLikes(): Promise<LikeModel[]> {
+    return getter.linkedLikes.bind(this)();
+  }
+
+  public get linkedLikesCount(): Promise<number> {
+    return getter.linkedLikesCount.bind(this)();
   }
 
   public get resolvedFlat(): AnswerResolvedFlat {
     return getter.resolvedFlat.bind(this)();
   }
 
-  public get linkedLikes(): Promise<LikeModel[]> {
-    return getter.linkedLikes.bind(this)();
-  }
+  public resolved: Resolved = (
+    (userUUID) => AnswerModel.resolved(this, userUUID)
+  );
 
   public isLikedBy: IsLikedBy = (
     (author) => AnswerModel.isLikedBy(this, author)
