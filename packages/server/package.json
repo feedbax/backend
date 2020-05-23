@@ -46,7 +46,6 @@
     "bcryptjs": "^2.4.3",
     "core-js": "^3.6.4",
     "express": "^4.17.1",
-    "farmhash": "^3.1.0",
     "flake-idgen": "^1.1.2",
     "hyphen": "^1.5.1",
     "lodash.debounce": "^4.0.8",
