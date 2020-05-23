@@ -2,7 +2,7 @@ import Packets from '@shared/packets/ids';
 import { ResponseKeys as R, ResErrorKeys as E } from '@shared/packets/response/ResponseObject';
 
 import { debug, error } from '~lib/logger';
-import { userNamespace, adminNamespace } from '~server';
+import getWorkerData from '~lib/worker-data';
 
 import { EventHandler } from '~events/helper/event-handler';
 import { checkSessionVars, presetAdminWithEvent } from '~events/helper/fbx-socket';
@@ -15,6 +15,7 @@ import type { AnswerModel } from '~models/Answer';
 import type { Handler } from './types';
 
 const handler: Handler = async function (packet, response) {
+  const workerData = getWorkerData();
   const { EventModelStatic } = statics.models;
 
   const logPath = `${this.namespace.name}/question/create`;
@@ -57,14 +58,16 @@ const handler: Handler = async function (packet, response) {
       answersResolved,
     ];
 
-    userNamespace
+    workerData
+      .userNamespace
       .to(currentEventId)
       .emit(
         Packets.Server.Question.Create,
         ...packetOut,
       );
 
-    adminNamespace
+    workerData
+      .adminNamespace
       .to(currentEventId)
       .emit(
         Packets.Server.Question.Create,

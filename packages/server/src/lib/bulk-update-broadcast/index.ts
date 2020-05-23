@@ -3,8 +3,8 @@ import debounce from 'lodash.debounce';
 import redis, { RedisClient } from 'redis';
 
 import { workerId } from '~main';
+import getWorkerData from '~lib/worker-data';
 import statics from '~models/statics';
-import { userNamespace, adminNamespace } from '~server';
 
 import { PacketKeys, LikeUpdatesKeys } from '@shared/packets/server/bulk-update';
 import { LikeUpdates, LikeUpdateAnswer, LikeUpdateQuestion } from '@shared/packets/server/bulk-update';
@@ -27,8 +27,6 @@ class BulkUpdateBroadcast {
     this.pubClient = redis.createClient(process.env.REDIS_URL || '');
 
     this.subClient.on('message', (_, event) => {
-      console.log(workerId, 'SUB', 'TRIGGER_BROADCAST', event);
-
       if (!this.broadcastFn.get(event)) {
         this.initBroadcastFn(event);
       }
@@ -64,7 +62,6 @@ class BulkUpdateBroadcast {
       }
 
       this.pubClient.publish('TRIGGER_BROADCAST', event);
-      console.log(workerId, 'PUB', 'TRIGGER_BROADCAST', event);
     }
   );
 
@@ -78,34 +75,43 @@ class BulkUpdateBroadcast {
   };
 
   private createBroadcastFn = (
-    (event: string): () => Promise<void> => (
-      async (): Promise<void> => {
-        const updateData = await this.updateData.get(event);
+    (event: string): () => Promise<void> => {
+      const removeBroadcastFn = (): boolean => this.broadcastFn.delete(event);
+      const debouncedRemove = debounce(removeBroadcastFn, 1000 * 60 * 10 /* 10 minutes */);
 
-        if (updateData) {
-          const packetOut: PacketOut = {
-            [PacketKeys.newAnswers]: updateData.newAnswers,
-            [PacketKeys.likeUpdates]: await this.getLikeUpdates(updateData),
-          };
+      return (
+        async (): Promise<void> => {
+          const workerData = getWorkerData();
+          const updateData = await this.updateData.get(event);
 
-          userNamespace
-            .to(`${workerId}-${event}`)
-            .emit(
-              Packets.Server.BulkUpdate,
-              packetOut,
-            );
+          if (updateData) {
+            const packetOut: PacketOut = {
+              [PacketKeys.newAnswers]: updateData.newAnswers,
+              [PacketKeys.likeUpdates]: await this.getLikeUpdates(updateData),
+            };
 
-          adminNamespace
-            .to(`${workerId}-${event}`)
-            .emit(
-              Packets.Server.BulkUpdate,
-              packetOut,
-            );
+            workerData
+              .userNamespace
+              .to(`${workerId}-${event}`)
+              .emit(
+                Packets.Server.BulkUpdate,
+                packetOut,
+              );
 
-          this.updateData.delete(event);
+            workerData
+              .adminNamespace
+              .to(`${workerId}-${event}`)
+              .emit(
+                Packets.Server.BulkUpdate,
+                packetOut,
+              );
+
+            this.updateData.delete(event);
+            debouncedRemove();
+          }
         }
-      }
-    )
+      );
+    }
   );
 
   private getLikeUpdates = (
