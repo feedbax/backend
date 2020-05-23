@@ -1,7 +1,7 @@
 import Packets from '@shared/packets/ids';
 import { ResponseKeys as R, ResErrorKeys as E } from '@shared/packets/response/ResponseObject';
 
-import { userNamespace, adminNamespace } from '~server';
+import getWorkerData from '~lib/worker-data';
 import { debug, error } from '~lib/logger';
 
 import { EventHandler } from '~events/helper/event-handler';
@@ -13,6 +13,7 @@ import type { Packet as PacketOut } from '@shared/packets/server/answer/merge';
 import type { Handler } from './types';
 
 const handler: Handler = async function (packet, response) {
+  const workerData = getWorkerData();
   const { AnswerModelStatic } = statics.models;
 
   const logPath = `${this.namespace.name}/answer/merge`;
@@ -55,8 +56,15 @@ const handler: Handler = async function (packet, response) {
       destroyedAnswersIds,
     ];
 
-    userNamespace.to(currentEventId).emit(Packets.Server.Answer.Merge, ...packetOut);
-    adminNamespace.to(currentEventId).emit(Packets.Server.Answer.Merge, ...packetOut);
+    workerData
+      .userNamespace
+      .to(currentEventId)
+      .emit(Packets.Server.Answer.Merge, ...packetOut);
+
+    workerData
+      .adminNamespace
+      .to(currentEventId)
+      .emit(Packets.Server.Answer.Merge, ...packetOut);
 
     response({
       [R.success]: true,

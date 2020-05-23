@@ -53,7 +53,7 @@ const handler: Handler = async function (this, packet, response) {
       createdAnswer,
     ];
 
-    BulkUpdateBroadcast.broadcast(currentEventId, {
+    await BulkUpdateBroadcast.broadcast(currentEventId, {
       action: UpdateAction.AddAnswer,
       payload: packetOut,
     });

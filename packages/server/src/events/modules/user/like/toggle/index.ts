@@ -69,7 +69,7 @@ const handler: Handler = async function (this, packet, response) {
     const $questionId = context[ContextKeys.questionId];
     const $answerId = context[ContextKeys.answerId];
 
-    BulkUpdateBroadcast.broadcast(currentEventId, {
+    await BulkUpdateBroadcast.broadcast(currentEventId, {
       action: UpdateAction.UpdateLikes,
       payload: {
         questionId: $questionId,

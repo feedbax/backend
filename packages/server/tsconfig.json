@@ -21,7 +21,7 @@
 			"~create-demo-event": ["test/create-demo-event"],
 			"~create-event": ["src/create-event"],
 
-			"~main": ["src/main"],
+			"~main": ["src/start-server"],
 
 			"~lib/*": ["src/lib/*"],
       "~types/*": ["src/types/*"],

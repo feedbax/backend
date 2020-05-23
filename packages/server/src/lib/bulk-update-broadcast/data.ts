@@ -24,18 +24,13 @@ class UpdateData {
 
   public claimDeleteIfPossible = (
     async (event: string): Promise<void> => {
-      console.log(workerId, 'claimDeleteIfPossible', event);
-
-      console.log(workerId, 'claimDeleteIfPossible', 'deleteClaimCache.has', this.deleteClaimCache.has(event));
       if (this.deleteClaimCache.has(event)) return;
 
-      console.log(workerId, 'claimDeleteIfPossible', 'checkDeleteClaimExists', await this.checkDeleteClaimExists(event));
       if (await this.checkDeleteClaimExists(event)) {
         this.deleteClaimCache.add(event);
         return;
       }
 
-      console.log(workerId, 'claimDeleteIfPossible', 'setDeleteClaim');
       this.setDeleteClaim(event);
     }
   );
@@ -100,7 +95,6 @@ class UpdateData {
         },
       };
 
-      console.log(workerId, 'get', JSON.stringify(updates, null, 1));
       return updates;
     }
   );
@@ -119,7 +113,6 @@ class UpdateData {
   public delete = (
     async (event: string): Promise<void> => {
       const claimedWorkerId = await this.getDeleteClaim(event);
-      console.log(workerId, 'delete', 'claimedWorkerId', claimedWorkerId);
 
       if (claimedWorkerId === workerId) {
         await this.del(`broadcast-updates:answers:${event}`);

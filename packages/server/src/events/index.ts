@@ -1,4 +1,5 @@
 import { debug } from '~lib/logger';
+import getWorkerData from '~lib/worker-data';
 
 import eventsAdmin from '~events/modules/admin';
 import eventsUser from '~events/modules/user';
@@ -7,12 +8,13 @@ import adminAuth from '~events/modules/admin/auth';
 import userAuth from '~events/modules/user/auth';
 
 import { modelBelongsToSession } from '~events/helper/fbx-socket';
-import { adminNamespace, userNamespace } from '~server';
 
 import type { FBXSocket } from '~events/helper/fbx-socket';
 import type { Handler } from './types';
 
 export default async function registerEvents(): Promise<void> {
+  const workerData = getWorkerData();
+
   const logout: Handler = await import('~events/logout');
   const $eventsAdmin = await Promise.all<Handler>(eventsAdmin);
   const $eventsUser = await Promise.all<Handler>(eventsUser);
@@ -21,6 +23,8 @@ export default async function registerEvents(): Promise<void> {
     admin: [...$eventsAdmin, logout],
     user: [...$eventsUser, logout],
   };
+
+  const { adminNamespace, userNamespace } = workerData;
 
   adminNamespace.on('connection', (socket: FBXSocket) => {
     // const { id, handshake } = socket;
