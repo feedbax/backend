@@ -1,6 +1,3 @@
-import 'core-js/stable';
-import '~models/register';
-
 import { Nohm } from 'nohm';
 
 import redis from 'redis';

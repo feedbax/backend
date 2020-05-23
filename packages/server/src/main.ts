@@ -1,3 +1,6 @@
+import 'core-js/stable';
+import '~models/register';
+
 import os from 'os';
 import cluster, { worker } from 'cluster';
 import http from 'http';
