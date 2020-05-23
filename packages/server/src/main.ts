@@ -7,6 +7,7 @@ import redis from 'redis';
 import { serverHttp, serverExpress } from '~server';
 
 import { info } from '~lib/logger';
+import flakeUuid from '~lib/flake-uuid';
 
 import registerEvents from '~events/index';
 import registerRoutes from '~routes/index';
@@ -15,11 +16,8 @@ import registerRoutes from '~routes/index';
 // import eventObject from 'src/__helper/event--demo';
 
 const clientRedis = redis.createClient(process.env.REDIS_URL || '');
-let started = false;
 
 async function startServer(): Promise<void> {
-  if (started) return;
-
   const port = process.env.PORT || 3000;
 
   // try {
@@ -35,13 +33,16 @@ async function startServer(): Promise<void> {
 
   serverHttp.listen(port, () => {
     info('Server listening at *:3000');
-    started = true;
   });
 }
 
-clientRedis.on('ready', () => {
+clientRedis.once('ready', () => {
   Nohm.setClient(clientRedis);
   Nohm.setPrefix('feedbax-dev');
 
   startServer();
 });
+
+
+// eslint-disable-next-line import/prefer-default-export
+export const workerId = flakeUuid();

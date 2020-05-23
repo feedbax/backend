@@ -1,8 +1,7 @@
 import flattenDeep from 'lodash.flattendeep';
-import { EventKeys } from '@shared/models/event';
-import { QuestionKeys } from '@shared/models/question';
-import { AnswerKeys } from '@shared/models/answer';
-import { LikeKeys } from '@shared/models/like';
+import { EventKeys as E } from '@shared/models/event';
+import { QuestionKeys as Q } from '@shared/models/question';
+import { AnswerKeys as A } from '@shared/models/answer';
 
 import * as ActionTypes from '~store/modules/answers/types';
 import * as Actions from './types';
@@ -10,18 +9,17 @@ import * as Actions from './types';
 export const addAnswersByEvent: Actions.AddAnswersByEvent = (event) => ({
   type: ActionTypes.ADD_ANSWERS,
   payload: flattenDeep(
-    event[EventKeys.questions]?.map(
-      (question) => question[QuestionKeys.answers]?.map(
+    event[E.questions]?.map(
+      (question) => question[Q.answers]?.map(
         (answer) => ({
-          id: answer[AnswerKeys.id],
-          eventId: event[EventKeys.id],
-          questionId: question[QuestionKeys.id],
-          text: answer[AnswerKeys.text],
-          author: answer[AnswerKeys.author],
-          time: answer[AnswerKeys.time],
-          likes: answer[AnswerKeys.likes]?.map(
-            (like) => like[LikeKeys.id]
-          ) || [],
+          id: answer[A.id],
+          eventId: event[E.id],
+          questionId: question[Q.id],
+          text: answer[A.text],
+          time: answer[A.time],
+          likes: answer[A.likes],
+          hasLiked: answer[A.hasLiked],
+          isMine: answer[A.isMine],
         }),
       ) || [],
     ) || [],
@@ -32,15 +30,14 @@ export const addAnswers: Actions.AddAnswers = (eventId, questionId, answers) => 
   type: ActionTypes.ADD_ANSWERS,
   payload: answers.map(
     (answer) => ({
-      id: answer[AnswerKeys.id],
+      id: answer[A.id],
       eventId,
       questionId,
-      text: answer[AnswerKeys.text],
-      author: answer[AnswerKeys.author],
-      time: answer[AnswerKeys.time],
-      likes: answer[AnswerKeys.likes]?.map(
-        (like) => like[LikeKeys.id]
-      ) || [],
+      text: answer[A.text],
+      time: answer[A.time],
+      likes: answer[A.likes] || 0,
+      hasLiked: answer[A.hasLiked] || false,
+      isMine: answer[A.isMine] || false,
     }),
   ),
 });
@@ -48,31 +45,29 @@ export const addAnswers: Actions.AddAnswers = (eventId, questionId, answers) => 
 export const addAnswer: Actions.AddAnswer = (eventId, questionId, answer) => ({
   type: ActionTypes.ADD_ANSWER,
   payload: {
-    id: answer[AnswerKeys.id],
+    id: answer[A.id],
     eventId,
     questionId,
-    text: answer[AnswerKeys.text],
-    author: answer[AnswerKeys.author],
-    time: answer[AnswerKeys.time],
-    likes: answer[AnswerKeys.likes]?.map(
-      (like) => like[LikeKeys.id]
-    ) || [],
+    text: answer[A.text],
+    time: answer[A.time],
+    likes: answer[A.likes] || 0,
+    hasLiked: answer[A.hasLiked] || false,
+    isMine: answer[A.isMine] || false,
   },
 });
 
-export const addLike: Actions.AddLike = (answerId, likeId) => ({
-  type: ActionTypes.ADD_LIKE,
+export const increaseLikes: Actions.IncreaseLikes = (answerId) => ({
+  type: ActionTypes.INCREASE_LIKES,
   payload: {
     answerId,
-    likeId,
   },
 });
 
-export const addLikes: Actions.AddLikes = (answerId, likeIds) => ({
-  type: ActionTypes.ADD_LIKES,
+export const increaseLikesBy: Actions.IncreaseLikesBy = (answerId, likesCount) => ({
+  type: ActionTypes.INCREASE_LIKES_BY,
   payload: {
     answerId,
-    likeIds,
+    likesCount,
   },
 });
 
@@ -91,10 +86,29 @@ export const removeAnswer: Actions.RemoveAnswer = (answerId) => ({
   payload: answerId,
 });
 
-export const removeLike: Actions.RemoveLike = (answerId, likeId) => ({
-  type: ActionTypes.REMOVE_LIKE,
+export const decreaseLikes: Actions.DecreaseLikes = (answerId) => ({
+  type: ActionTypes.DECREASE_LIKES,
   payload: {
     answerId,
-    likeId,
   },
 });
+
+export const setHasLiked: Actions.SetHasLiked = (
+  (answerId, hasLiked) => ({
+    type: ActionTypes.SET_HAS_LIKED,
+    payload: {
+      answerId,
+      hasLiked,
+    },
+  })
+);
+
+export const setLikes: Actions.SetLikes = (
+  (answerId, likes) => ({
+    type: ActionTypes.SET_LIKES,
+    payload: {
+      answerId,
+      likes,
+    },
+  })
+);

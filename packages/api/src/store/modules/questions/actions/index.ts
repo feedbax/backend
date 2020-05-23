@@ -1,9 +1,6 @@
-import flattenDeep from 'lodash.flattendeep';
-
-import { EventKeys } from '@shared/models/event';
-import { QuestionKeys } from '@shared/models/question';
-import { AnswerKeys } from '@shared/models/answer';
-import { LikeKeys } from '@shared/models/like';
+import { EventKeys as E } from '@shared/models/event';
+import { QuestionKeys as Q } from '@shared/models/question';
+import { AnswerKeys as A } from '@shared/models/answer';
 
 import * as ActionTypes from '~store/modules/questions/types';
 import * as Actions from './types';
@@ -14,22 +11,16 @@ export const addQuestion: Actions.AddQuestion = (eventId, question) => ({
   payload: {
     eventId,
 
-    id: question[QuestionKeys.id],
-    order: question[QuestionKeys.order],
-    settings: question[QuestionKeys.settings],
-    text: question[QuestionKeys.text],
-    type: question[QuestionKeys.type],
+    id: question[Q.id],
+    order: question[Q.order],
+    settings: question[Q.settings],
+    text: question[Q.text],
+    type: question[Q.type],
+    likes: question[Q.likes],
+    hasLiked: question[Q.hasLiked],
 
-    answers: question[QuestionKeys.answers]?.map(
-      (answer) => answer[AnswerKeys.id]
-    ) || [],
-
-    likes: flattenDeep(
-      question[QuestionKeys.answers]?.map(
-        (answer) => answer[AnswerKeys.likes]?.map(
-          (like) => like[LikeKeys.id]
-        ) || []
-      ) || [],
+    answers: question[Q.answers]?.map(
+      (answer) => answer[A.id]
     ) || [],
   },
 });
@@ -37,26 +28,20 @@ export const addQuestion: Actions.AddQuestion = (eventId, question) => ({
 export const addQuestionsByEvent: Actions.AddQuestionsByEvent = (event) => ({
   type: ActionTypes.ADD_QUESTIONS,
 
-  payload: event[EventKeys.questions]?.map(
+  payload: event[E.questions]?.map(
     (question) => ({
-      eventId: event[EventKeys.id],
+      eventId: event[E.id],
 
-      id: question[QuestionKeys.id],
-      order: question[QuestionKeys.order],
-      settings: question[QuestionKeys.settings],
-      text: question[QuestionKeys.text],
-      type: question[QuestionKeys.type],
+      id: question[Q.id],
+      order: question[Q.order],
+      settings: question[Q.settings],
+      text: question[Q.text],
+      type: question[Q.type],
+      likes: question[Q.likes],
+      hasLiked: question[Q.hasLiked],
 
-      answers: question[QuestionKeys.answers]?.map(
-        (answer) => answer[AnswerKeys.id]
-      ) || [],
-
-      likes: flattenDeep(
-        question[QuestionKeys.answers]?.map(
-          (answer) => answer[AnswerKeys.likes]?.map(
-            (like) => like[LikeKeys.id]
-          ) || []
-        ) || [],
+      answers: question[Q.answers]?.map(
+        (answer) => answer[A.id]
       ) || [],
     })
   ),
@@ -70,19 +55,18 @@ export const addAnswer: Actions.AddAnswer = (questionId, answerId) => ({
   },
 });
 
-export const addLike: Actions.AddLike = (questionId, likeId) => ({
-  type: ActionTypes.ADD_LIKE,
+export const increaseLikes: Actions.IncreaseLikes = (questionId) => ({
+  type: ActionTypes.INCREASE_LIKES,
   payload: {
     questionId,
-    likeId,
   },
 });
 
-export const addLikes: Actions.AddLikes = (questionId, likeIds) => ({
-  type: ActionTypes.ADD_LIKES,
+export const increaseLikesBy: Actions.IncreaseLikesBy = (questionId, likesCount) => ({
+  type: ActionTypes.INCREASE_LIKES_BY,
   payload: {
     questionId,
-    likeIds,
+    likesCount,
   },
 });
 
@@ -112,18 +96,37 @@ export const removeAnswers: Actions.RemoveAnswers = (questionId, answerIds) => (
   },
 });
 
-export const removeLike: Actions.RemoveLike = (questionId, likeId) => ({
-  type: ActionTypes.REMOVE_LIKE,
+export const decreaseLikes: Actions.DecreaseLikes = (questionId) => ({
+  type: ActionTypes.DECREASE_LIKES,
   payload: {
     questionId,
-    likeId,
   },
 });
 
-export const removeLikes: Actions.RemoveLikes = (questionId, likeIds) => ({
-  type: ActionTypes.REMOVE_LIKES,
+export const decreaseLikesBy: Actions.DecreaseLikesBy = (questionId, likesCount) => ({
+  type: ActionTypes.DECREASE_LIKES_BY,
   payload: {
     questionId,
-    likeIds,
+    likesCount,
   },
 });
+
+export const setHasLiked: Actions.SetHasLiked = (
+  (questionId, hasLiked) => ({
+    type: ActionTypes.SET_HAS_LIKED,
+    payload: {
+      questionId,
+      hasLiked,
+    },
+  })
+);
+
+export const setLikes: Actions.SetLikes = (
+  (questionId, likes) => ({
+    type: ActionTypes.SET_LIKES,
+    payload: {
+      questionId,
+      likes,
+    },
+  })
+);

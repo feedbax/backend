@@ -116,7 +116,8 @@ const withAnswer: WithAnswer = (
   async (keep, merge) => {
     try {
       const answerId = keep.id;
-      const questionId = (await keep.parent).id;
+      const question = await keep.parent;
+      const questionId = question.id;
 
       if (questionId === null) {
         throw new Error('question-id-null');
@@ -144,18 +145,19 @@ const withAnswer: WithAnswer = (
         answerKeepLikes,
       );
 
-      const destroyedLikesIds = answersMergeLikes.map(getIds);
       const destroyedAnswersIds = merge.map(getIds);
-      const createdLikesModels = await addLikesToAnswer(keep, distinctLikesMerge);
-      const createdLikes = createdLikesModels.map((like) => like.resolved);
 
+      await addLikesToAnswer(keep, distinctLikesMerge);
       await removeModels(answersMergeLikes);
       await removeModels(merge);
 
+      const questionLikes = await question.linkedLikesCount;
+      const answerLikes = await keep.linkedLikesCount;
+
       return {
         context,
-        createdLikes,
-        destroyedLikesIds,
+        questionLikes,
+        answerLikes,
         destroyedAnswersIds,
       };
     } catch (err) {

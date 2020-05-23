@@ -1,6 +1,5 @@
 import type { DestroyedQuestionId } from '@shared/packets/server/question/destroy';
 import type { DestroyedAnswersIds } from '@shared/packets/server/question/destroy';
-import type { DestroyedLikesIds } from '@shared/packets/server/question/destroy';
 
 import type { NohmModel } from 'nohm';
 import type { QuestionModel } from '~models/Question';
@@ -8,7 +7,6 @@ import type { QuestionModel } from '~models/Question';
 export type ReturnType = {
   destroyedQuestionId: DestroyedQuestionId;
   destroyedAnswersIds: DestroyedAnswersIds;
-  destroyedLikesIds: DestroyedLikesIds;
 };
 
 export type GetModelId = {

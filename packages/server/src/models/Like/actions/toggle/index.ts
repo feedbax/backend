@@ -4,7 +4,6 @@ import statics from '~models/statics';
 import { error } from '~lib/logger';
 import { LikeError } from '~types/errors';
 
-import type { LikeResolved } from '@shared/models/like';
 import type { AnswerModel } from '~models/Answer';
 
 import { GetContext, Context } from './types';
@@ -43,12 +42,10 @@ const byAnswer: ByAnswer = (
 
       let action: ToggleActions;
       let context: Context;
-      let like: LikeResolved;
 
       if (isLiked && Like) {
         action = ToggleActions.Destroyed;
         context = await getContext(Like);
-        like = Like.resolved;
 
         await Like.remove();
       } else {
@@ -56,10 +53,9 @@ const byAnswer: ByAnswer = (
 
         action = ToggleActions.Created;
         context = await getContext(LikeAdded);
-        like = LikeAdded.resolved;
       }
 
-      return [action, context, like];
+      return [action, context];
     } catch (err) {
       error('Like', 'toggle', 'byAnswer', err);
       throw new LikeError('toggle-by-answer');

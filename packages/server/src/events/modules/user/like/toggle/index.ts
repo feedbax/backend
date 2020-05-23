@@ -1,10 +1,10 @@
 import Packets from '@shared/packets/ids';
-import { ToggleActions, LikeKeys } from '@shared/models/like';
+import { ToggleActions } from '@shared/models/like';
 import { ContextKeys } from '@shared/packets/context';
-import { ResponseKeys, ResErrorKeys } from '@shared/packets/response/ResponseObject';
+import { ResponseKeys as R, ResErrorKeys as E } from '@shared/packets/response/ResponseObject';
 
 import { debug, error } from '~lib/logger';
-import BulkUpdateBroadcast, { UpdateAction } from '~lib/update-broadcast';
+import BulkUpdateBroadcast, { UpdateAction } from '~lib/bulk-update-broadcast';
 
 import { EventHandler } from '~events/helper/event-handler';
 import { checkSessionVars, presetUserWithEvent } from '~events/helper/fbx-socket';
@@ -30,7 +30,7 @@ const handler: Handler = async function (this, packet, response) {
     const { currentEventId } = this.socket.auth;
     const { id: answerId } = answer;
 
-    const [action, context, like] = await LikeModelStatic.toggle(
+    const [action, context] = await LikeModelStatic.toggle(
       this.socket.auth.browserUUID,
       { answerId },
     );
@@ -42,7 +42,6 @@ const handler: Handler = async function (this, packet, response) {
       case ToggleActions.Created: {
         const $packetOut: PacketOutCreate = [
           context,
-          like,
         ];
 
         $data = {
@@ -56,7 +55,6 @@ const handler: Handler = async function (this, packet, response) {
       case ToggleActions.Destroyed: {
         const $packetOut: PacketOutDestroy = [
           context,
-          like[LikeKeys.id],
         ];
 
         $data = {
@@ -80,18 +78,18 @@ const handler: Handler = async function (this, packet, response) {
     });
 
     response({
-      [ResponseKeys.success]: true,
-      [ResponseKeys.data]: $data,
+      [R.success]: true,
+      [R.data]: $data,
     });
   } catch (err) {
     error(`${this.namespace.name}/like/toggle`, this.socket.id, err);
 
     response({
-      [ResponseKeys.success]: false,
-      [ResponseKeys.data]: undefined,
-      [ResponseKeys.error]: {
-        [ResErrorKeys.name]: err.name,
-        [ResErrorKeys.message]: err.message,
+      [R.success]: false,
+      [R.data]: undefined,
+      [R.error]: {
+        [E.name]: err.name,
+        [E.message]: err.message,
       },
     });
   }

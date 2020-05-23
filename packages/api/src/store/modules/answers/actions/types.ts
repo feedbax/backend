@@ -17,15 +17,19 @@ export interface AddAnswers {
 }
 
 export interface AddAnswer {
-  (eventId: string, questionId: string, answer: AnswerResolved): AnswerActions.AddAnswerAction;
+  (
+    eventId: string,
+    questionId: string,
+    answer: Partial<AnswerResolved> & AnswerResolvedFlat,
+  ): AnswerActions.AddAnswerAction;
 }
 
-export interface AddLike {
-  (answerId: string, likeId: string): AnswerActions.AddLikeAction;
+export interface IncreaseLikes {
+  (answerId: string): AnswerActions.IncreaseLikesAction;
 }
 
-export interface AddLikes {
-  (answerId: string, likeIds: string[]): AnswerActions.AddLikesAction;
+export interface IncreaseLikesBy {
+  (answerId: string, likesCount: number): AnswerActions.IncreaseLikesByAction;
 }
 
 export interface EditAnswer {
@@ -40,6 +44,14 @@ export interface RemoveAnswer {
   (answerId: string): AnswerActions.RemoveAnswerAction;
 }
 
-export interface RemoveLike {
-  (answerId: string, likeId: string): AnswerActions.RemoveLikeAction;
+export interface DecreaseLikes {
+  (answerId: string): AnswerActions.DecreaseLikesAction;
+}
+
+export interface SetHasLiked {
+  (answerId: string, hasLiked: boolean): AnswerActions.SetHasLikedAction;
+}
+
+export interface SetLikes {
+  (answerId: string, likes: number): AnswerActions.SetLikesAction;
 }

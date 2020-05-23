@@ -4,14 +4,14 @@ import type { AnswerModel } from '~models/Answer';
 import type { LikeModel } from '~models/Like';
 
 import type { Context } from '@shared/packets/server/answer/merge';
-import type { CreatedLikes } from '@shared/packets/server/answer/merge';
-import type { DestroyedLikesIds } from '@shared/packets/server/answer/merge';
+import type { QuestionLikesCount } from '@shared/packets/server/answer/merge';
+import type { AnswerLikesCount } from '@shared/packets/server/answer/merge';
 import type { DestroyedAnswersIds } from '@shared/packets/server/answer/merge';
 
 export type ReturnType = {
   context: Context;
-  createdLikes: CreatedLikes;
-  destroyedLikesIds: DestroyedLikesIds;
+  questionLikes: QuestionLikesCount;
+  answerLikes: AnswerLikesCount;
   destroyedAnswersIds: DestroyedAnswersIds;
 };
 

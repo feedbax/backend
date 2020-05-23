@@ -11,12 +11,12 @@ import * as actions from './actions';
 import * as getter from './getter';
 
 import type { AnswerProperties } from '@shared/models/answer';
-import type { EventResolved, EventProperties, EventResolvedFlat } from '@shared/models/event';
+import type { EventProperties, EventResolvedFlat } from '@shared/models/event';
 import type { QuestionProperties } from '@shared/models/question';
 
 import type { QuestionModel } from '~models/Question';
 
-import type { Definitions, CreateQuestion } from './types';
+import type { Definitions, CreateQuestion, Resolved } from './types';
 
 // eslint-disable-next-line import/prefer-default-export
 export class EventModel extends NohmModel<EventProperties> {
@@ -27,12 +27,9 @@ export class EventModel extends NohmModel<EventProperties> {
   public static create = actions.create;
   public static destroy = actions.destroy;
   public static checkModel = actions.checkModel;
+  public static resolved = actions.resolved;
 
   protected static definitions: Definitions = definitions;
-
-  public get resolved(): Promise<EventResolved> {
-    return getter.resolved.bind(this)();
-  }
 
   public get resolvedFlat(): EventResolvedFlat {
     return getter.resolvedFlat.bind(this)();
@@ -41,6 +38,10 @@ export class EventModel extends NohmModel<EventProperties> {
   public get linkedQuestions(): Promise<QuestionModel[]> {
     return getter.linkedQuestions.bind(this)();
   }
+
+  public resolved: Resolved = (
+    (userUUID) => EventModel.resolved(this, userUUID)
+  );
 
   public createQuestion: CreateQuestion = (
     async (props, insertionType = InsertionType.APPEND) => {

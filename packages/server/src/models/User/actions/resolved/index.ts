@@ -5,11 +5,11 @@ import { UserResolved, UserKeys } from '@shared/models/user';
 import type { GetterResolved } from './types';
 
 export const resolved: GetterResolved = (
-  async function () {
+  async function (user, userUUID) {
     try {
-      const Events = await this.linkedEvents;
-      const eventsResolver = Events.map((Question) => Question.resolved);
-      const props = this.allProperties();
+      const Events = await user.linkedEvents;
+      const eventsResolver = Events.map((Question) => Question.resolved(userUUID));
+      const props = user.allProperties();
 
       const event: UserResolved = {
         [UserKeys.id]: props.id,

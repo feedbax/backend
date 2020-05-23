@@ -1,5 +1,6 @@
 import Packets from '@shared/packets/ids';
 import { ToggleActions } from '@shared/models/like';
+import { ActionKeys as A } from '@shared/packets/response/like/toggle';
 
 import likeCreateHandler from '~handlers/like/create';
 import likeDestroyHandler from '~handlers/like/destroy';
@@ -20,16 +21,16 @@ const toggle: Toggle = async function (props) {
       data,
     }).then((res) => {
       // eslint-disable-next-line default-case
-      switch (res.action) {
+      switch (res[A.action]) {
         case ToggleActions.Created: {
-          const [context, like] = res.payload;
-          likeCreateHandler.bind(this)(context, like);
+          const [context] = res[A.payload];
+          likeCreateHandler.bind(this)(context);
           break;
         }
 
         case ToggleActions.Destroyed: {
-          const [context, likeId] = res.payload;
-          likeDestroyHandler.bind(this)(context, likeId);
+          const [context] = res[A.payload];
+          likeDestroyHandler.bind(this)(context);
           break;
         }
       }

@@ -75,7 +75,9 @@ export enum QuestionKeys {
   text,
   order,
   settings,
-  answers
+  answers,
+  hasLiked,
+  likes,
 }
 
 // branding is necessary to preserve custom type in intellisense
@@ -83,6 +85,8 @@ type QuestionId = string & { __brand?: unknown };
 type QuestionText = string & { __brand?: unknown };
 type QuestionOrder = number & { __brand?: unknown };
 type QuestionAnswer = AnswerResolved[];
+type QuestionLikesCount = number & { __brand?: unknown };
+type QuestionHasLiked = boolean & { __brand?: unknown };
 
 export interface QuestionResolvedFlat {
   [QuestionKeys.id]: QuestionId;
@@ -90,8 +94,10 @@ export interface QuestionResolvedFlat {
   [QuestionKeys.text]: QuestionText;
   [QuestionKeys.order]: QuestionOrder;
   [QuestionKeys.settings]: QuestionSettings;
+  [QuestionKeys.hasLiked]: QuestionHasLiked;
 }
 
 export interface QuestionResolved extends QuestionResolvedFlat {
   [QuestionKeys.answers]: QuestionAnswer;
+  [QuestionKeys.likes]: QuestionLikesCount;
 }

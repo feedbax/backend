@@ -1,5 +1,5 @@
 import Packets from '@shared/packets/ids';
-import { ResponseKeys, ResErrorKeys } from '@shared/packets/response/ResponseObject';
+import { ResponseKeys as R, ResErrorKeys as E } from '@shared/packets/response/ResponseObject';
 
 import { userNamespace, adminNamespace } from '~server';
 import { debug, error } from '~lib/logger';
@@ -33,7 +33,7 @@ const handler: Handler = async function (packet, response) {
     const { currentEventId } = this.socket.auth;
     const { answer: { id: answerId } } = packet;
 
-    const { context, destroyedAnswerId, destroyedLikesIds } = (
+    const { context, destroyedAnswerId } = (
       await AnswerModelStatic.destroy({
         answerId,
       })
@@ -41,8 +41,8 @@ const handler: Handler = async function (packet, response) {
 
     const packetOut: PacketOut = [
       context,
+      0,
       destroyedAnswerId,
-      destroyedLikesIds,
     ];
 
     userNamespace
@@ -60,18 +60,18 @@ const handler: Handler = async function (packet, response) {
       );
 
     response({
-      [ResponseKeys.success]: true,
-      [ResponseKeys.data]: undefined,
+      [R.success]: true,
+      [R.data]: undefined,
     });
   } catch (err) {
     error(logPath, this.socket.id, err);
 
     response({
-      [ResponseKeys.success]: false,
-      [ResponseKeys.data]: undefined,
-      [ResponseKeys.error]: {
-        [ResErrorKeys.name]: err.name,
-        [ResErrorKeys.message]: err.message,
+      [R.success]: false,
+      [R.data]: undefined,
+      [R.error]: {
+        [E.name]: err.name,
+        [E.message]: err.message,
       },
     });
   }

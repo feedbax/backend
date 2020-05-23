@@ -1,13 +1,13 @@
 import type { AnswerModel } from '~models/Answer';
 
 import type { Context } from '@shared/packets/server/answer/destroy';
+import type { QuestionLikesCount } from '@shared/packets/server/answer/destroy';
 import type { DestroyedAnswerId } from '@shared/packets/server/answer/destroy';
-import type { DestroyedLikesIds } from '@shared/packets/server/answer/destroy';
 
 type ReturnType = {
   context: Context;
+  questionLikes: QuestionLikesCount;
   destroyedAnswerId: DestroyedAnswerId;
-  destroyedLikesIds: DestroyedLikesIds;
 };
 
 export interface Props {

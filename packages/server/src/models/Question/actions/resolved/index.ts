@@ -5,13 +5,16 @@ import type { GetterResolved } from './types';
 import { QuestionKeys } from '@shared/models/question';
 
 export const resolved: GetterResolved = (
-  async function () {
+  async function (question, userUUID) {
     try {
-      const Answers = await this.linkedAnswers;
+      const props = question.allProperties();
 
-      const answersPromise = Answers.map((Answer) => Answer.resolved);
+      const Answers = await question.linkedAnswers;
+      const answersPromise = Answers.map((Answer) => Answer.resolved(userUUID));
       const answers = await Promise.all(answersPromise);
-      const props = this.allProperties();
+
+      const likes = await question.linkedLikesCount;
+      const [hasLiked] = await question.isLikedBy(userUUID);
 
       return {
         [QuestionKeys.id]: props.id,
@@ -20,6 +23,8 @@ export const resolved: GetterResolved = (
         [QuestionKeys.type]: props.type,
         [QuestionKeys.settings]: props.settings,
         [QuestionKeys.answers]: answers,
+        [QuestionKeys.likes]: likes,
+        [QuestionKeys.hasLiked]: hasLiked,
       };
     } catch (err) {
       error('QuestionModel', 'resolved', err);

@@ -1,5 +1,5 @@
-import { EventKeys } from '@shared/models/event';
-import { QuestionKeys } from '@shared/models/question';
+import { EventKeys as E } from '@shared/models/event';
+import { QuestionKeys as Q } from '@shared/models/question';
 
 import * as ActionTypes from '~store/modules/event/types';
 import * as Actions from './types';
@@ -8,12 +8,12 @@ import * as Actions from './types';
 export const loadEvent: Actions.LoadEvent = (event) => ({
   type: ActionTypes.LOAD_EVENT,
   payload: {
-    id: event[EventKeys.id],
-    slug: event[EventKeys.slug],
-    settings: event[EventKeys.settings],
+    id: event[E.id],
+    slug: event[E.slug],
+    settings: event[E.settings],
 
-    questions: event[EventKeys.questions]?.map(
-      (question) => question[QuestionKeys.id]
+    questions: event[E.questions]?.map(
+      (question) => question[Q.id]
     ) || [],
   },
 });

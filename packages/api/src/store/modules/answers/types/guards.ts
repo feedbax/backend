@@ -7,8 +7,9 @@ export const isAnswer = (variableToCheck: any): variableToCheck is AnswerState =
   typeof variableToCheck?.id !== 'undefined'
   && typeof variableToCheck?.eventId !== 'undefined'
   && typeof variableToCheck?.questionId !== 'undefined'
-  && typeof variableToCheck?.author !== 'undefined'
   && typeof variableToCheck?.likes !== 'undefined'
   && typeof variableToCheck?.text !== 'undefined'
   && typeof variableToCheck?.time !== 'undefined'
+  && typeof variableToCheck?.hasLiked !== 'undefined'
+  && typeof variableToCheck?.isMine !== 'undefined'
 );

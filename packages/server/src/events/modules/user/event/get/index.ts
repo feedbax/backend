@@ -1,8 +1,9 @@
 import Packets from '@shared/packets/ids';
 import { EventKeys } from '@shared/models/event';
-import { ResponseKeys, ResErrorKeys } from '@shared/packets/response/ResponseObject';
+import { ResponseKeys as R, ResErrorKeys as E } from '@shared/packets/response/ResponseObject';
 
 import { debug, error } from '~lib/logger';
+import { workerId } from '~main';
 
 import { EventHandler } from '~events/helper/event-handler';
 import { checkSessionVars, presetUserWithoutEvent } from '~events/helper/fbx-socket';
@@ -27,11 +28,12 @@ const handler: Handler = async function (packet, response) {
     }
 
     const event = await EventModelStatic.get({ id: packet.event.id });
-    const eventResolved = await event.resolved;
+    const eventResolved = await event.resolved(this.socket.auth.browserUUID);
     const currentEventId = eventResolved[EventKeys.id];
 
     this.socket.leaveAll();
     this.socket.join(currentEventId);
+    this.socket.join(`${workerId}-${currentEventId}`);
 
     this.socket.auth = {
       ...this.socket.auth,
@@ -39,18 +41,18 @@ const handler: Handler = async function (packet, response) {
     };
 
     response({
-      [ResponseKeys.success]: true,
-      [ResponseKeys.data]: eventResolved,
+      [R.success]: true,
+      [R.data]: eventResolved,
     });
   } catch (err) {
     error(`${this.namespace.name}/event/get`, this.socket.id, err);
 
     response({
-      [ResponseKeys.success]: false,
-      [ResponseKeys.data]: undefined,
-      [ResponseKeys.error]: {
-        [ResErrorKeys.name]: err.name,
-        [ResErrorKeys.message]: err.message,
+      [R.success]: false,
+      [R.data]: undefined,
+      [R.error]: {
+        [E.name]: err.name,
+        [E.message]: err.message,
       },
     });
   }

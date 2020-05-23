@@ -9,7 +9,4 @@ export type Context = (
   }
 );
 
-// branding is necessary to preserve custom type in intellisense
-type DestroyedLikeId = string & { __brand?: unknown };
-
-export type Packet = [Context, DestroyedLikeId];
+export type Packet = [Context];

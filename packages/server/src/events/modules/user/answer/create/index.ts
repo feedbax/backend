@@ -1,9 +1,9 @@
 import Packets from '@shared/packets/ids';
 import { ContextKeys } from '@shared/packets/context';
-import { ResponseKeys, ResErrorKeys } from '@shared/packets/response/ResponseObject';
+import { ResponseKeys as R, ResErrorKeys as E } from '@shared/packets/response/ResponseObject';
 
 import { debug, error } from '~lib/logger';
-import BulkUpdateBroadcast, { UpdateAction } from '~lib/update-broadcast';
+import BulkUpdateBroadcast, { UpdateAction } from '~lib/bulk-update-broadcast';
 
 import { EventHandler } from '~events/helper/event-handler';
 import { checkSessionVars, presetUserWithEvent } from '~events/helper/fbx-socket';
@@ -59,18 +59,18 @@ const handler: Handler = async function (this, packet, response) {
     });
 
     response({
-      [ResponseKeys.success]: true,
-      [ResponseKeys.data]: packetOut,
+      [R.success]: true,
+      [R.data]: packetOut,
     });
   } catch (err) {
     error(logPath, this.socket.id, err);
 
     response({
-      [ResponseKeys.success]: false,
-      [ResponseKeys.data]: undefined,
-      [ResponseKeys.error]: {
-        [ResErrorKeys.name]: err.name,
-        [ResErrorKeys.message]: err.message,
+      [R.success]: false,
+      [R.data]: undefined,
+      [R.error]: {
+        [E.name]: err.name,
+        [E.message]: err.message,
       },
     });
   }

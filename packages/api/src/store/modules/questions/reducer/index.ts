@@ -37,6 +37,10 @@ export default (state = { ...initialState }, action: QuestionsActions): Question
       const { questionId, answerId } = action.payload;
       const { [questionId]: question } = state;
 
+      if (question.answers.includes(answerId)) {
+        return state;
+      }
+
       return {
         ...state,
 
@@ -51,8 +55,8 @@ export default (state = { ...initialState }, action: QuestionsActions): Question
       };
     }
 
-    case ActionTypes.ADD_LIKE: {
-      const { questionId, likeId } = action.payload;
+    case ActionTypes.INCREASE_LIKES: {
+      const { questionId } = action.payload;
       const { [questionId]: question } = state;
 
       return {
@@ -60,17 +64,13 @@ export default (state = { ...initialState }, action: QuestionsActions): Question
 
         [question.id]: {
           ...question,
-
-          likes: [
-            ...question.likes,
-            likeId,
-          ],
+          likes: question.likes + 1,
         },
       };
     }
 
-    case ActionTypes.ADD_LIKES: {
-      const { questionId, likeIds } = action.payload;
+    case ActionTypes.INCREASE_LIKES_BY: {
+      const { questionId, likesCount } = action.payload;
       const { [questionId]: question } = state;
 
       return {
@@ -78,11 +78,7 @@ export default (state = { ...initialState }, action: QuestionsActions): Question
 
         [question.id]: {
           ...question,
-
-          likes: [
-            ...question.likes,
-            ...likeIds,
-          ],
+          likes: question.likes + likesCount,
         },
       };
     }
@@ -139,8 +135,8 @@ export default (state = { ...initialState }, action: QuestionsActions): Question
       };
     }
 
-    case ActionTypes.REMOVE_LIKE: {
-      const { questionId, likeId } = action.payload;
+    case ActionTypes.DECREASE_LIKES: {
+      const { questionId } = action.payload;
       const { [questionId]: question } = state;
 
       return {
@@ -148,16 +144,13 @@ export default (state = { ...initialState }, action: QuestionsActions): Question
 
         [question.id]: {
           ...question,
-
-          likes: question.likes.filter(
-            (_likeId) => _likeId !== likeId,
-          ),
+          likes: question.likes - 1,
         },
       };
     }
 
-    case ActionTypes.REMOVE_LIKES: {
-      const { questionId, likeIds } = action.payload;
+    case ActionTypes.DECREASE_LIKES_BY: {
+      const { questionId, likesCount } = action.payload;
       const { [questionId]: question } = state;
 
       return {
@@ -165,10 +158,35 @@ export default (state = { ...initialState }, action: QuestionsActions): Question
 
         [question.id]: {
           ...question,
+          likes: question.likes - likesCount,
+        },
+      };
+    }
 
-          likes: question.likes.filter(
-            (likeId) => !likeIds.includes(likeId),
-          ),
+    case ActionTypes.SET_HAS_LIKED: {
+      const { questionId, hasLiked } = action.payload;
+      const { [questionId]: question } = state;
+
+      return {
+        ...state,
+
+        [question.id]: {
+          ...question,
+          hasLiked,
+        },
+      };
+    }
+
+    case ActionTypes.SET_LIKES: {
+      const { questionId, likes } = action.payload;
+      const { [questionId]: question } = state;
+
+      return {
+        ...state,
+
+        [question.id]: {
+          ...question,
+          likes,
         },
       };
     }

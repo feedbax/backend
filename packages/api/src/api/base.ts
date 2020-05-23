@@ -11,7 +11,7 @@ import store, { ApiStoreDefault, DispatchAll } from '~store';
 import actions from '~actions';
 import handlers from '~handlers';
 
-import { ResponseObject, ResponseKeys } from '@shared/packets/response/ResponseObject';
+import { ResponseObject, ResponseKeys as R } from '@shared/packets/response/ResponseObject';
 
 import type { Socket, ConnectOpts } from './types';
 import type { SendPacket } from './types';
@@ -41,14 +41,12 @@ class FBXAPI extends EventEmitter {
   }
 
   private addEventHandlers = (): void => {
-    this.socket.on(Packets.Server.Like.Create, handlers.like.create.bind(this));
-    this.socket.on(Packets.Server.Like.Destroy, handlers.like.destroy.bind(this));
-    this.socket.on(Packets.Server.Answer.Create, handlers.answer.create.bind(this));
     this.socket.on(Packets.Server.Answer.Destroy, handlers.answer.destroy.bind(this));
     this.socket.on(Packets.Server.Answer.Edit, handlers.answer.edit.bind(this));
     this.socket.on(Packets.Server.Answer.Merge, handlers.answer.merge.bind(this));
     this.socket.on(Packets.Server.Question.Create, handlers.question.create.bind(this));
     this.socket.on(Packets.Server.Question.Destroy, handlers.question.destroy.bind(this));
+    this.socket.on(Packets.Server.BulkUpdate, handlers.bulkUpdate.bind(this));
 
     this.socket.on('connect', () => this.emit('connect'));
     this.socket.on('connect_error', (error: Error) => this.emit('connect_error', error));
@@ -75,10 +73,10 @@ class FBXAPI extends EventEmitter {
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.socket.emit(id, data, (res: ResponseObject<any>) => {
-        if (res[ResponseKeys.success]) {
-          resolve(res[ResponseKeys.data]);
+        if (res[R.success]) {
+          resolve(res[R.data]);
         } else {
-          reject(res[ResponseKeys.error]);
+          reject(res[R.error]);
         }
       });
     });
