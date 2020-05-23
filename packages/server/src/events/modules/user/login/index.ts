@@ -4,6 +4,7 @@ import { ResponseKeys as R, ResErrorKeys as E } from '@shared/packets/response/R
 
 import { debug, error } from '~lib/logger';
 import { validateUUIDSync } from '~lib/validate-uuid';
+import { workerId } from '~main';
 
 import { EventHandler } from '~events/helper/event-handler';
 import statics from '~models/statics';
@@ -26,6 +27,7 @@ const handler: Handler = async function (this, packet, response) {
     const currentEventId = eventResolved[EventKeys.id];
 
     this.socket.join(currentEventId);
+    this.socket.join(`${workerId}-${currentEventId}`);
 
     this.socket.auth = {
       ...this.socket.auth,

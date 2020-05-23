@@ -3,6 +3,7 @@ import { EventKeys } from '@shared/models/event';
 import { ResponseKeys as R, ResErrorKeys as E } from '@shared/packets/response/ResponseObject';
 
 import { debug, error } from '~lib/logger';
+import { workerId } from '~main';
 
 import { EventHandler } from '~events/helper/event-handler';
 import { checkSessionVars, presetUserWithoutEvent } from '~events/helper/fbx-socket';
@@ -32,6 +33,7 @@ const handler: Handler = async function (packet, response) {
 
     this.socket.leaveAll();
     this.socket.join(currentEventId);
+    this.socket.join(`${workerId}-${currentEventId}`);
 
     this.socket.auth = {
       ...this.socket.auth,

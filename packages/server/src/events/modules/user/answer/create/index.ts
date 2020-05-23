@@ -3,7 +3,7 @@ import { ContextKeys } from '@shared/packets/context';
 import { ResponseKeys as R, ResErrorKeys as E } from '@shared/packets/response/ResponseObject';
 
 import { debug, error } from '~lib/logger';
-import BulkUpdateBroadcast, { UpdateAction } from '~lib/update-broadcast';
+import BulkUpdateBroadcast, { UpdateAction } from '~lib/bulk-update-broadcast';
 
 import { EventHandler } from '~events/helper/event-handler';
 import { checkSessionVars, presetUserWithEvent } from '~events/helper/fbx-socket';
