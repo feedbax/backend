@@ -2,11 +2,15 @@
 
 This is the monorepo of the feedb.ax backend. It consists of the modules:
 - server
+- auto-archiver
 - api
 - shared
 
-### Server
+### server
 A Node.js® backend written in TypeScript. Communication with the frontend via WebSockets. Saves the data and scales horiziontally via Redis.
+
+### auto-archiver
+A Node.js® backend written in TypeScript. Archives expired events and removes them from redis.
 
 ### api
 An npm module that contains the necessary tools to communicate with the Node.js backend. Written in TypeScript, state management with Redux.
