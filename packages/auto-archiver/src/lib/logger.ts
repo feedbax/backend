@@ -14,8 +14,8 @@ const logger = createLogger({
     format.printf((info) => `${info.timestamp} ${info.level}: ${info.message}`),
   ),
   transports: [
-    new transports.File({ filename: 'fbx-backend-error.log', level: 'error', ...otherProps }),
-    new transports.File({ filename: 'fbx-backend-combined.log', ...otherProps }),
+    new transports.File({ filename: 'fbx-auto-archiver-error.log', level: 'error', ...otherProps }),
+    new transports.File({ filename: 'fbx-auto-archiver-combined.log', ...otherProps }),
   ],
 });
 
