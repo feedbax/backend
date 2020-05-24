@@ -1,0 +1,27 @@
+name: CI/CD
+
+on:
+  push:
+    tags:        
+      - auto-archiver-v*
+
+jobs:
+  build-server:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set output
+      id: vars
+      run: echo ::set-output name=tag::${GITHUB_REF:17}
+
+    - name: publish docker image
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: feedbax/backend/backend-auto-archiver
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
+        dockerfile: packages/server/Dockerfile
+        tags: "${{ steps.vars.outputs.tag }}"
