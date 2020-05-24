@@ -1,0 +1,10 @@
+/node_modules
+/dist
+/redis-data
+/mongo-data
+
+/src/shared
+/src/**/*.js
+
+/*.log
+/.cache
