@@ -36,7 +36,6 @@ clientRedis.once('ready', async () => {
   Nohm.setPrefix('feedbax-dev');
 
   const TEN_MINUTES = 0.1 * 60 * 1000;
-  const THREE_DAYS = 3 * 24 * 60 * 60;
 
   const archive = (
     async (event: EventModel): Promise<void> => {
@@ -59,7 +58,7 @@ clientRedis.once('ready', async () => {
     async (): Promise<void> => {
       try {
         const { EventModelStatic } = statics.models;
-        const dateNow = Date.now() / 1000 + THREE_DAYS;
+        const dateNow = Date.now() / 1000;
         const events = await EventModelStatic.findAndLoad<EventModel>({});
 
         const archivePromises = [];
