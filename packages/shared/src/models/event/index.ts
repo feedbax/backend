@@ -1,4 +1,4 @@
-import type { QuestionResolved } from '~models/question';
+import type { QuestionResolved, QuestionArchivable } from '~models/question';
 
 export interface EventSettings {
   showSocialShareButtons?: boolean;
@@ -14,6 +14,7 @@ export const defaultSettings: EventSettings = {
 
 export interface EventPropsRequired {
   slug: string;
+  endTime: number;
 }
 
 export interface EventPropsOptional {
@@ -23,6 +24,11 @@ export interface EventPropsOptional {
 export interface EventProperties
   extends EventPropsRequired,
     EventPropsOptional {}
+
+export interface EventArchivable extends EventProperties {
+  id: string;
+  questions: QuestionArchivable[];
+}
 
 export enum EventKeys {
   id,

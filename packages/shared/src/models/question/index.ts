@@ -1,4 +1,4 @@
-import type { AnswerResolved } from '~models/answer';
+import type { AnswerResolved, AnswerArchivable } from '~models/answer';
 
 export enum QuestionType {
   NONE = 'NONE',
@@ -68,6 +68,11 @@ export interface QuestionPropsOptional {
 export interface QuestionProperties
   extends QuestionPropsRequired,
     QuestionPropsOptional {}
+
+export interface QuestionArchivable extends QuestionProperties {
+  id: string;
+  answers: AnswerArchivable[];
+}
 
 export enum QuestionKeys {
   id,

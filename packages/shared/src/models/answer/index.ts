@@ -1,3 +1,5 @@
+import type { LikeArchivable } from '~models/like';
+
 export interface AnswerPropsOptional {
   time: number;
 }
@@ -10,6 +12,11 @@ export interface AnswerPropsRequired {
 export interface AnswerProperties
   extends AnswerPropsOptional,
     AnswerPropsRequired {}
+
+export interface AnswerArchivable extends AnswerProperties {
+  id: string;
+  likes: LikeArchivable[];
+}
 
 export enum AnswerKeys {
   id,
