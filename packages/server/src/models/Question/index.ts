@@ -8,7 +8,7 @@ import * as getter from './getter';
 
 import definitions from './definitions';
 
-import type { QuestionProperties } from '@shared/models/question';
+import type { QuestionProperties, QuestionArchivable } from '@shared/models/question';
 
 import type { EventModel } from '~models/Event';
 import type { AnswerModel } from '~models/Answer';
@@ -29,6 +29,10 @@ export class QuestionModel extends NohmModel<QuestionProperties> {
   public static resolved = actions.resolved;
 
   protected static definitions: Definitions = definitions;
+
+  public get archivable(): Promise<QuestionArchivable> {
+    return getter.archivable.bind(this)();
+  }
 
   public get parent(): Promise<EventModel> {
     return getter.parent.bind(this)();

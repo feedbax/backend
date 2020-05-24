@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import type { Definitions } from './types';
 
 const definitions: Definitions = {
@@ -9,8 +10,16 @@ const definitions: Definitions = {
   },
 
   password: {
-    type: 'string',
-    validations: ['notEmpty'],
+    defaultValue: '',
+    type: (value): string => bcrypt.hashSync(value, 10),
+    validations: [
+      {
+        name: 'length',
+        options: {
+          min: 8,
+        },
+      },
+    ],
   },
 };
 
