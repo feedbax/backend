@@ -10,6 +10,19 @@ services:
 
     ports:
       - "6379:6379"
+
+  mongo:
+    image: "mongo:4.2-bionic"
+
+    volumes:
+      - "./mongo-data:/data/db"
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+    ports:
+      - "27017:27017"
       
 #  server:
 #    image: "docker.pkg.github.com/feedbax/backend/backend-server:v1.1.0"

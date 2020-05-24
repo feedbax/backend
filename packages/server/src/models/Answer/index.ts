@@ -12,7 +12,7 @@ import type { QuestionModel } from '~models/Question';
 import type { EventModel } from '~models/Event';
 import type { LikeModel } from '~models/Like';
 
-import type { AnswerProperties, AnswerResolvedFlat } from '@shared/models/answer';
+import type { AnswerProperties, AnswerResolvedFlat, AnswerArchivable } from '@shared/models/answer';
 
 import type { Definitions, Resolved } from './types';
 import type { Move, IsLikedBy } from './types';
@@ -33,6 +33,10 @@ export class AnswerModel extends NohmModel<AnswerProperties> {
   public static resolved = actions.resolved;
 
   protected static definitions: Definitions = definitions;
+
+  public get archivable(): Promise<AnswerArchivable> {
+    return getter.archivable.bind(this)();
+  }
 
   public get parent(): Promise<QuestionModel> {
     return getter.parent.bind(this)();

@@ -11,3 +11,7 @@ export interface LikePropsRequired {
 export interface LikePropsOptional {}
 
 export interface LikeProperties extends LikePropsRequired, LikePropsOptional {}
+
+export interface LikeArchivable extends LikeProperties {
+  id: string;
+}

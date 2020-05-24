@@ -7,7 +7,7 @@ import * as getter from './getter';
 
 import definitions from './definitions';
 
-import type { LikeProperties } from '@shared/models/like';
+import type { LikeProperties, LikeArchivable } from '@shared/models/like';
 
 import type { AnswerModel } from '~models/Answer';
 import type { EventModel } from '~models/Event';
@@ -24,6 +24,10 @@ export class LikeModel extends NohmModel<LikeProperties> {
   public static create = actions.create;
 
   protected static definitions: Definitions = definitions;
+
+  public get archivable(): LikeArchivable {
+    return getter.archivable.bind(this)();
+  }
 
   public get parent(): Promise<AnswerModel> {
     return getter.parent.bind(this)();

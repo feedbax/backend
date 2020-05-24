@@ -11,7 +11,7 @@ import * as actions from './actions';
 import * as getter from './getter';
 
 import type { AnswerProperties } from '@shared/models/answer';
-import type { EventProperties, EventResolvedFlat } from '@shared/models/event';
+import type { EventProperties, EventResolvedFlat, EventArchivable } from '@shared/models/event';
 import type { QuestionProperties } from '@shared/models/question';
 
 import type { QuestionModel } from '~models/Question';
@@ -30,6 +30,10 @@ export class EventModel extends NohmModel<EventProperties> {
   public static resolved = actions.resolved;
 
   protected static definitions: Definitions = definitions;
+
+  public get archivable(): Promise<EventArchivable> {
+    return getter.archivable.bind(this)();
+  }
 
   public get resolvedFlat(): EventResolvedFlat {
     return getter.resolvedFlat.bind(this)();
