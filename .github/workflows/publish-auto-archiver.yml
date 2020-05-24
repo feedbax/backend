@@ -6,7 +6,7 @@ on:
       - auto-archiver-v*
 
 jobs:
-  build-server:
+  build-auto-archiver:
     runs-on: ubuntu-18.04
 
     steps:
