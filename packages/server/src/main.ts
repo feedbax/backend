@@ -1,6 +1,8 @@
 import 'core-js/stable';
 import '~models/register';
 
+import { debug } from '~lib/logger';
+
 import os from 'os';
 import cluster, { worker } from 'cluster';
 import http from 'http';
@@ -31,7 +33,7 @@ async function run(): Promise<void> {
       workers[i] = cluster.fork();
 
       workers[i].on('exit', () => {
-        console.log('respawning worker', i);
+        debug('respawning worker', i);
         spawn(i);
       });
     };
@@ -54,10 +56,10 @@ async function run(): Promise<void> {
     });
 
     serverHttp.listen(port, () => {
-      console.log(`Server listening at *:${port}`);
+      debug(`Server listening at *:${port}`);
     });
   } else {
-    console.log('startup worker', worker.id);
+    debug('startup worker', worker.id);
 
     const { default: getWorkerData } = await import('~lib/worker-data');
     const { startServer, workerId } = await import('~main');
@@ -87,7 +89,7 @@ async function run(): Promise<void> {
     process.on('message', (message, connection: Socket) => {
       if (message !== 'give-connection') return;
 
-      console.log('handling connection', worker.id, workerId, connection.remoteAddress);
+      debug('handling connection', worker.id, workerId);
       serverLocal.emit('connection', connection);
       connection.resume();
     });
