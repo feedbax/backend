@@ -22,6 +22,7 @@
     "build": "yarn build-tsc && yarn build-exe"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/flake-idgen": "^0.1.30",
     "@types/mongodb": "^3.5.18",
     "@types/node": "^13.13.5",
