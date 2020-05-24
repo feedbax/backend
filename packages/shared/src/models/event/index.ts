@@ -28,6 +28,7 @@ export interface EventProperties
 export interface EventArchivable extends EventProperties {
   id: string;
   questions: QuestionArchivable[];
+  belongsToUser: string;
 }
 
 export enum EventKeys {
