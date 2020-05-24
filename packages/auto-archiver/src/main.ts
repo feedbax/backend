@@ -5,6 +5,7 @@ import { Nohm } from 'nohm';
 import redis from 'redis';
 import { MongoClient } from 'mongodb';
 
+import { debug, error } from '~lib/logger';
 import statics from '~models/statics';
 
 import type { EventModel } from '~models/Event';
@@ -39,47 +40,50 @@ clientRedis.once('ready', async () => {
 
   const archive = (
     async (event: EventModel): Promise<void> => {
-      console.log('trying to store', event.id, 'in mongodb..');
+      debug('trying to store', event.id, 'in mongodb..');
 
       const { EventModelStatic } = statics.models;
       const eventArchivable = await event.archivable;
 
       await collection.insertOne(eventArchivable);
 
-      console.log('successfully stored', event.id, 'in mongodb');
-      console.log('trying to delete', event.id, 'from redis..');
+      debug('successfully stored', event.id, 'in mongodb');
+      debug('trying to delete', event.id, 'from redis..');
 
       await EventModelStatic.destroy({ eventId: event.id });
-      console.log('successfully deleted', event.id, 'from redis');
+      debug('successfully deleted', event.id, 'from redis');
     }
   );
 
   const check = (
     async (): Promise<void> => {
-      const { EventModelStatic } = statics.models;
-      const dateNow = Date.now() / 1000 + THREE_DAYS;
-      const events = await EventModelStatic.findAndLoad<EventModel>({});
+      try {
+        const { EventModelStatic } = statics.models;
+        const dateNow = Date.now() / 1000 + THREE_DAYS;
+        const events = await EventModelStatic.findAndLoad<EventModel>({});
 
-      const archivePromises = [];
+        const archivePromises = [];
 
-      for (let i = 0; i < events.length; i += 1) {
-        const event = events[i];
-        const eventEndTime = event.property('endTime');
-        const eventExpired = dateNow >= eventEndTime;
+        for (let i = 0; i < events.length; i += 1) {
+          const event = events[i];
+          const eventEndTime = event.property('endTime');
+          const eventExpired = dateNow >= eventEndTime;
 
-        console.log(event.id, 'eventExpired?', eventExpired);
+          debug(event.id, 'eventExpired?', eventExpired);
 
-        if (eventExpired) {
-          archivePromises.push(
-            archive(event),
-          );
+          if (eventExpired) {
+            archivePromises.push(
+              archive(event),
+            );
+          }
         }
-      }
 
-      await Promise.all(archivePromises);
+        await Promise.all(archivePromises);
+      } catch (err) {
+        error('archiving failed', err);
+      }
     }
   );
 
-  // setInterval(check, TEN_MINUTES);
-  check();
+  setInterval(check, TEN_MINUTES);
 });
