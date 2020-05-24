@@ -23,5 +23,5 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         registry: docker.pkg.github.com
-        dockerfile: packages/server/Dockerfile
+        dockerfile: packages/auto-archiver/Dockerfile
         tags: "${{ steps.vars.outputs.tag }}"
