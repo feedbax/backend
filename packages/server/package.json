@@ -51,7 +51,7 @@
     "lodash.debounce": "^4.0.8",
     "nohm": "^2.2.3",
     "redis": "^3.0.2",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "socket.io-msgpack-parser": "^2.2.0",
     "socket.io-redis": "^5.2.0",
     "winston": "^3.2.1"
