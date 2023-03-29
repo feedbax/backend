@@ -17,7 +17,7 @@ jobs:
       run: echo ::set-output name=tag::${GITHUB_REF:24}
 
     - name: publish docker image
-      uses: elgohr/Publish-Docker-Github-Action@master
+      uses: elgohr/Publish-Docker-Github-Action@v5
       with:
         name: feedbax/backend/backend-auto-archiver
         username: ${{ github.actor }}
